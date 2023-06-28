@@ -1,8 +1,4 @@
 Sector,Industry,Employment,Personal Income,Output
-Construction,Construction of other new nonresidential structures,8434.643452,396285657.1,1378588606
-Construction,Maintenance and repair construction of nonresidential structures,8587.10415,402079265.4,2072080377
-Construction,"Maintenance and repair construction of highways, streets, bridges, and tunnels",1503.12152,72782003.16,367307627.9
-Construction,"Architectural, engineering, and related services",20955.30306,1649894438,3611892028
 Defense,"Employment and payroll of federal govt, military",12622.21764,1175632253,1551383790
 Living Resources,Grain farming,1.970029293,45617.21522,434177.8195
 Living Resources,Vegetable and melon farming,2679.832118,58959574.69,312345224.4
@@ -10,7 +6,7 @@ Living Resources,Fruit farming,3955.510514,63302188.98,304949316.8
 Living Resources,Tree nut farming,1.681117208,40237.0816,138834.6425
 Living Resources,"Greenhouse, nursery, and floriculture production",2246.793899,69398154.11,208011670.2
 Living Resources,All other crop farming,542.7600489,3208304.703,5647089.6
-Living Resources,"Beef cattle ranching and farming, including feedlots and dual-purpose ranching and farming",215.8343443,629728.6327,35763604.93
+Living Resources,Beef cattle ranching and farming,215.8343443,629728.6327,35763604.93
 Living Resources,Dairy cattle and milk production,67.31347521,1508584.444,35628124.73
 Living Resources,Poultry and egg production,33.46503391,1504247.237,11173853.25
 Living Resources,"Animal production, except cattle and poultry and eggs",231.3214466,3663098.373,33895529.72
@@ -21,6 +17,10 @@ Living Resources,Commercial hunting and trapping,12.31292172,354596.5361,8373601
 Living Resources,Support activities for agriculture and forestry,7218.783104,167486381.5,239700844.1
 Living Resources,Canned fruits and vegetables manufacturing,898.5643555,89962955.1,552712381.8
 Living Resources,Seafood product preparation and packaging,688.735779,31933230.77,285102868.4
+Marine Construction,Construction of other new nonresidential structures,8434.643452,396285657.1,1378588606
+Marine Construction,Maintenance and repair construction of nonresidential structures,8587.10415,402079265.4,2072080377
+Marine Construction,"Maintenance and repair construction of highways, streets, bridges, and tunnels",1503.12152,72782003.16,367307627.9
+Marine Construction,"Architectural, engineering, and related services",20955.30306,1649894438,3611892028
 Marine Construction,Landscape and horticultural services,13649.66148,454063602.3,1142736400
 Marine Transportation,Water transportation,524.4441362,31177638,357356513.5
 Marine Transportation,Pipeline transportation,206.0722275,20471455.27,84248046.63
