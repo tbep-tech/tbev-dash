@@ -1,13 +1,13 @@
-County,Habitat,Number of Protected Parcels,Property Values in Flood Zone,Total Flood Protection Benefits
-Hillsborough,Wetlands,311,417735512.3,22792900.44
-Hillsborough,Mangroves,500,2283072788,433994948.4
-Hillsborough,All,811,2700808301,456787848.8
-Manatee,Wetlands,357,275618819.3,16308177.2
-Manatee,Mangroves,557,371632041.5,54279858.84
-Manatee,All,914,647250860.7,70588036.04
-Pinellas,Wetlands,3525,1817897255,119950316.2
-Pinellas,Mangroves,3746,2026673078,277114007.9
-Pinellas,All,7271,3844570333,397064324.2
-All,Wetlands,4193,2511251586,159051393.9
-All,Mangroves,4803,4681377908,765388815.1
-All,All,8996,7192629494,924440209
+County,Habitat,Number of Protected Parcels,Property Values in Flood Zone,Total Flood Protection Benefits,Parcels,Values,Benefits
+Hillsborough,Wetlands,311,417735512.3,22792900.44,311 parcels,$0.42 billion,$23 million
+Hillsborough,Mangroves,500,2283072788,433994948.4,500 parcels,$2.28 billion,$434 million
+Hillsborough,All habitats,811,2700808301,456787848.8,811 parcels,$2.70 billion,$457 million
+Manatee,Wetlands,357,275618819.3,16308177.2,357 parcels,$0.28 billion,$16 million
+Manatee,Mangroves,557,371632041.5,54279858.84,557 parcels,$0.37 billion,$54 million
+Manatee,All habitats,914,647250860.7,70588036.04,914 parcels,$0.65 billion,$71 million
+Pinellas,Wetlands,3525,1817897255,119950316.2,"3,525 parcels",$1.82 billion,$120 million
+Pinellas,Mangroves,3746,2026673078,277114007.9,"3,746 parcels",$2.03 billion,$277 million
+Pinellas,All habitats,7271,3844570333,397064324.2,"7,271 parcels",$3.84 billion,$397 million
+All counties,Wetlands,4193,2511251586,159051393.9,"4,193 parcels",$2.51 billion,$159 million
+All counties,Mangroves,4803,4681377908,765388815.1,"4,803 parcels",$4.68 billion,$765 million
+All counties,All habitats,8996,7192629494,924440209,"8,996 parcels",$7.19 billion,$924 million
