@@ -5,30 +5,14 @@ library(RColorBrewer)
 library(plotly)
 library(leafpop)
 library(gridExtra)
-
-#TEMPLATE
-OutputTotal <- EI_sector %>%
-  plot_ly() %>%
-  add_trace(
-    labels = ~Sector,
-    values = ~Output,
-    type = "pie",
-    insidetextfont = list(color = '#FFFFFF'),
-    hovertemplate = "<b><i>Lanuage: %{label}</i></b> <br> <b><i>Popularity: %{percent}</i></b>") %>%
-  layout(hoverlabel = list(
-    font = list(
-      family = "sitka Small",
-      size = 16,
-      color = "black")))
-OutputTotal
-#TEMPLATE
-
-
+library(leafsync)
 
 
 # Define color palette
 
 tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
+
+
 
 #### Economic Impact Evaluation ####
 
@@ -1391,6 +1375,15 @@ layout(
     font = list(family = "Courier New", size = 16, color = "white")))
 
 
+#### Property Values ####
+
+
+load(file = "data/shoreline.RData")
+
+
+mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
+  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
+
 
 
 #### Ecosystem Service Evaluation ####
@@ -1411,7 +1404,7 @@ load(file = "data/watershed.RData")
 #save(habitats, file = "data/habitats.RData")
 
 
-mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE) +
+mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE) +
   mapview(habitats, zcol = "Habitat", col.regions = c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00"),
         alpha.regions = 1.0, lwd = 0, layer.name = "Habitats", popup = popupTable(habitats,
                                                                                   zcol = c("Habitat","Area","Sequestration","Denitrification"),
@@ -1579,7 +1572,178 @@ grid.arrange(Carbon_Total1, Carbon_Total2, Carbon_Total3, Carbon_Total4, ncol = 
 
 #### * Denitrification #####
 
+ES_denitrification <- read.csv("data/ES_denitrification.csv")
+
+
+# SCALE: Per-acre
+Denitrification_PerAcre1 <- ggplot(ES_denitrification, aes(x = Habitat, y = Per.acre.Denitrification..kg.N.ac.yr., fill = Habitat)) +
+  geom_bar(stat = "identity") +
+  ylab("Annual denitrification rate (kg N/ac/yr)\n") +
+  theme(legend.position = "none",
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_blank(),
+        axis.title.x = element_text(face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length.x = unit(.3, "cm"),
+        panel.background = element_blank(),
+        panel.grid.major.x = element_line(colour = "gray85")) +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_y_continuous(position = "right", limits = c(0,40)) +
+  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_PerAcre1
+
+
+Denitrification_PerAcre2 <- ggplot(ES_denitrification, aes(x = Habitat, y = Per.acre.Denitrification.Value....ac., fill = Habitat)) +
+  geom_bar(stat = "identity") +
+  ylab("Annual value of denitrification services ($/ac/yr)\n") +
+  theme(legend.position = "none",
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_blank(),
+        axis.title.x = element_text(face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length.x = unit(.3, "cm"),
+        panel.background = element_blank(),
+        panel.grid.major.x = element_line(colour = "gray85")) +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_y_continuous(position = "right", limits = c(0,4000), labels = scales::comma) +
+  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_PerAcre2
+
+grid.arrange(Denitrification_PerAcre1, Denitrification_PerAcre2, ncol = 2, nrow = 1)
+
+
+# SCALE: Total
+Denitrification_Total1 <- ggplot(ES_denitrification, aes(x = Habitat, y = Total.Denitrification..kg.N.yr., fill = Habitat)) +
+  geom_bar(stat = "identity") +
+  ylab("Annual denitrification rate (million kg N/yr)\n") +
+  theme(legend.position = "none",
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_blank(),
+        axis.title.x = element_text(face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length.x = unit(.3, "cm"),
+        panel.background = element_blank(),
+        panel.grid.major.x = element_line(colour = "gray85")) +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_y_continuous(position = "right", limits = c(0,6000000), labels = function(x)x/1000000) +
+  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_Total1
+
+Denitrification_Total2 <- ggplot(ES_denitrification, aes(x = Habitat, y = Total.Denitrification.Value...., fill = Habitat)) +
+  geom_bar(stat = "identity") +
+  ylab("Annual value of denitrification services ($ million/yr)\n") +
+  theme(legend.position = "none",
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_blank(),
+        axis.title.x = element_text(face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length.x = unit(.3, "cm"),
+        panel.background = element_blank(),
+        panel.grid.major.x = element_line(colour = "gray85")) +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_y_continuous(position = "right", limits = c(0,600000000), labels = function(x)x/1000000) +
+  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_Total2
+
+grid.arrange(Denitrification_Total1, Denitrification_Total2, ncol = 2, nrow = 1)
+
 
 
 #### * Flood Protection #####
+
+ES_flood <- read.csv("data/ES_flood.csv")
+
+Flood_Parcels <-
+  ggplot(ES_flood, aes(x = County, y = Number.of.Protected.Parcels, fill = Habitat)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Protected Parcels") +
+  ylab("Number of parcels\n") +
+  xlab("\nCounty") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_text(face = "bold"),
+        axis.title.x = element_text(face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length.y = unit(.3, "cm"),
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(colour = "gray85")) +
+  scale_y_continuous(limits = c(0,9000), labels = scales::comma) +
+  scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
+Flood_Parcels
+
+Flood_Values <-
+  ggplot(ES_flood, aes(x = County, y = Property.Values.in.Flood.Zone, fill = Habitat)) +
+    geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Property Values in Adjacent Flood Zone") +
+  ylab("Property values ($ billion)\n") +
+    xlab("\nCounty") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin (.5,.5,.5,.5, "cm"),
+        axis.title.y = element_text(face = "bold"),
+          axis.title.x = element_text(face = "bold"),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.ticks.length.y = unit(.3, "cm"),
+          panel.background = element_blank(),
+          panel.grid.major.y = element_line(colour = "gray85")) +
+    scale_y_continuous(limits = c(0,7500000000), labels = function(x)x/1000000000) +
+    scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
+Flood_Values
+
+Flood_Benefits <-
+  ggplot(ES_flood, aes(x = County, y = Total.Flood.Protection.Benefits, fill = Habitat)) +
+    geom_bar(position = "dodge", stat = "identity") +
+  ggtitle("Flood Protection Benefits") +
+  ylab("Total benefits ($ million)\n") +
+    xlab("\nCounty") +
+    theme(legend.position = c(0.85,0.65),
+          legend.title = element_blank(),
+          legend.background = element_blank(),
+          plot.title = element_text(hjust = 0.5),
+          plot.margin = margin (.5,.5,.5,.5, "cm"),
+          axis.title.y = element_text(face = "bold"),
+          axis.title.x = element_text(face = "bold"),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.ticks.length.y = unit(.3, "cm"),
+          panel.background = element_blank(),
+          panel.grid.major.y = element_line(colour = "gray85")) +
+    scale_y_continuous(limits = c(0,950000000), labels = function(x)x/1000000) +
+    scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
+Flood_Benefits
+
+grid.arrange(Flood_Parcels, Flood_Values, Flood_Benefits, ncol = 3, nrow = 1)
+
+# Map
+
+load(file = "data/wetlands.RData")
+load(file = "data/mangroves.RData")
+load(file = "data/parcels.RData")
+
+
+parcelmap <- parcels %>%
+  filter(FloodZone != "No intersect project Flood Zones") %>%
+  mapview(zcol = "FloodZone", col.regions = c("#D69C4E","#5C4A42"), alpha.regions = 1.0, layer.name = "Protected Parcels", lwd = 0,
+                     popup = popupTable(parcels,
+                                        zcol = "Habitat",
+                                        feature.id = FALSE,
+                                        row.numbers = FALSE))
+
+habitatmaps <- mapview(wetlands, col.regions = "#004F7E", lwd = 0, alpha.regions = 1.0, layer.name = "Wetlands", label = "FLUCCSDESC", popup = FALSE) +
+  mapview(mangroves, col.regions = "#9C974A", lwd = 0, alpha.regions = 1.0, layer.name = "Mangroves", label = "FLUCCSDESC", popup = FALSE)
+
+sync(habitatmaps, parcelmap)
+
+
 
