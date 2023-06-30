@@ -14,9 +14,8 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 # libraries
 library(flexdashboard)
-library(tbeptools)
 library(shiny)
-library(tidyverse)
+library(dplyr)
 library(sf)
 library(mapview)
 library(RColorBrewer)
@@ -25,23 +24,54 @@ library(leafpop)
 library(gridExtra)
 library(leafsync)
 
-data(epcdata) #??????????
+tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
+
+EI_sector <- read.csv("data/EI_sector.csv")
 ```
 
 
 ```{r reactives}
-myplot <- reactive({
+conpie <- reactive({
   
   # inputs
-  yrsel <- input$yrsel
+  secsel <- input$secsel
+  impsel <- input$impsel
   
-  toplo <- epcdata %>% 
-    filter(yr == yrsel) %>% 
-    pull(tn)
+  # filter and format input data
+  toplo <- EI_sector %>% 
+    filter(Contribution != 'Total') %>% 
+    filter(Sector %in% secsel) %>% 
+    rename(imp = !!impsel) %>% 
+    mutate(
+      lab = case_when(
+        impsel == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        T ~ paste("$", round(imp/1000000000, digits = 2), "billion")
+        )
+    )
   
-  hist(toplo)
+  # make the pie chart
+  out <- toplo %>% 
+    plot_ly(
+    labels = ~Contribution,
+    values = ~imp,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~lab) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Contributions</b>", side = "top"),
+      orientation = "h"),
+    hoverlabel = list(
+      font = list(family = "Courier New", size = 16, color = "white")))
   
-}) #??????????
+  return(out)
+  
+}) 
 
 ```
 
@@ -144,7 +174,17 @@ Column {data-width=500}
 
 ### SITE ATTAINMENT BY YEAR
 
-This is where the text goes
+```{r}
+output$conpie <- renderPlotly(conpie())
+fillCol(flex = c(0.1, 1),
+  fillRow(
+    selectInput(inputId = 'secsel', label = 'Select sector:', choices = unique(EI_sector$Sector), width = '90%'),
+    selectInput(inputId = 'impsel', label = 'Select impact:', choices = c('Employment', 'Personal.Income', 'Output'), width = '90%')
+  ),
+  plotlyOutput('conpie')
+)
+```
+```
 
 
 
