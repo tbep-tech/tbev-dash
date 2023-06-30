@@ -47,7 +47,7 @@ myplot <- reactive({
 
 
 
-OVERVIEW
+Overview
 ===========================================================
 
 Column {data-width=650}
@@ -119,5 +119,196 @@ knitr::include_graphics('img/tbrpclogo.PNG')
 ```{r, fig.align='left', out.width='80%'}
 knitr::include_graphics('img/tbeptberflogo.PNG')
 ```
+
+
+Economic Impacts of Industry Sectors {data-navmenu="Results"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+Property Value Amenity Impacts {data-navmenu="Results"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+Ecosystem Services {data-navmenu="Results"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+
+Economic Impacts of Industry Sectors {data-navmenu="Methods"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+Property Value Amenity Impacts {data-navmenu="Methods"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+Ecosystem Services {data-navmenu="Methods"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
+
+
+
+<i>Download Data</i> {data-navmenu="Methods"}
+===========================================================
+
+Column {.tabset .tabset-fade data-width=275}
+-----------------------------------------------------------------------
+
+### Using this page
+
+This page shows the overall report card for the bay as management action categories:
+
+
+In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+
+A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+
+Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### SITE ATTAINMENT BY YEAR
+
+This is where the text goes
+
 
 
