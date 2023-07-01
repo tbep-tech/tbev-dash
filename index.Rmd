@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 # libraries
 library(flexdashboard)
-library(tbeptools)
+#library(tbeptools)
 library(shiny)
 library(tidyverse)
 library(sf)
@@ -50,12 +50,12 @@ myplot <- reactive({
 Overview
 ===========================================================
 
-Column {data-width=650}
+Column {data-width=700}
 -----------------------------------------------------------------------
 
 <div class = "row">
 <div class = "col-md-2"></div>
-<div class = "col-md-8">
+<div class = "col-md-10">
 
 #### The Economic Valuation of Tampa Bay
 
@@ -90,35 +90,44 @@ knitr::include_graphics('img/spacer.PNG')
 </div>
 
 
-Column {data-width=275}
+Column {data-width=325}
 -----------------------------------------------------------------------
+
+<div class = "row">
+<div class = "col-md-2"></div>
+<div class = "col-md-9">
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
 knitr::include_graphics('img/report.PNG')
 ```
 
-[Download the full report](https://github.com/tbep-tech/tbev-dash)
+<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
 
 ```{r, fig.align='center', out.width='5%'}
 knitr::include_graphics('img/spacer.PNG')
 ```
 
+
 #### More information
 
-Questions and comments about the dashboard can be sent to [Blake Simmons](mailto:bsimmons@tbep.org). The website source content can be viewed on [Github](https://github.com/tbep-tech/tbev-dash). Like this app? Share it on social media using the [\#TampaBayOpenSci](https://twitter.com/hashtag/TampaBayOpenSci?src=hashtag_click) hashtag.  
+<font size="3">Questions and comments about the dashboard can be sent to [Blake Simmons](mailto:bsimmons@tbep.org). The website source content can be viewed on [Github](https://github.com/tbep-tech/tbev-dash). Like this app? Share it on social media using the [\#TampaBayOpenSci](https://twitter.com/hashtag/TampaBayOpenSci?src=hashtag_click) hashtag. 
 
 Questions and comments about the study can be sent to the lead author of the report, [Alana Todd](mailto:alana@tbrpc.org). Any use or reference to the information displayed in the dashboard should cite the original report.
 
-<i>This study was funded in part by the Tampa Bay Estuary Program's Environmental Restoration Fund.</i>
+<i>This study was funded in part by the Tampa Bay Estuary Program's Environmental Restoration Fund.</i></font> 
 
-```{r, fig.align='left', out.width='80%'}
+```{r, fig.align='center', out.width='60%'}
 knitr::include_graphics('img/tbrpclogo.PNG')
 ```
 
-```{r, fig.align='left', out.width='80%'}
+```{r, fig.align='center', out.width='60%'}
 knitr::include_graphics('img/tbeptberflogo.PNG')
 ```
+
+</div>
+<div class = "col-md-2"></div>
+</div>
 
 
 Economic Impacts of Industry Sectors {data-navmenu="Results"}
@@ -139,12 +148,357 @@ A similar matrix is provided for light attenuation. It is important to note that
 Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
 
 
-Column {data-width=500}
+Column {.tabset .tabset-fade data-width=650}
 -----------------------------------------------------------------------
 
-### SITE ATTAINMENT BY YEAR
+#### Economic Impacts of Industry Sectors
 
-This is where the text goes
+```{r}
+EI_sector <- read.csv("data/EI_sector.csv")
+EI_industry <- read.csv("data/EI_industry.csv")
+EI_contribution <- read.csv("data/EI_contribution.csv")
+tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
+```
+
+
+### Total
+
+```{r}
+mainPanel(
+  column(6,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(6,
+         selectInput('yrselseas', 'Select contribution:', selected = "Total", choices = c("Total", "Direct","Indirect","Induced"))))
+```
+<br>
+<br>
+
+```{r}
+OutputTotal <- EI_sector %>%
+  filter(Contribution == "Total") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Sector,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Sectors</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+OutputTotal
+```
+
+### Defense
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Defense_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Defense") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Defense_OutputIndustry
+```
+
+### Living Resources
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Living.Resources_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Living Resources") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Living.Resources_OutputIndustry
+```
+
+### Marine Construction
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Marine.Construction_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Marine Construction") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Marine.Construction_OutputIndustry
+```
+
+### Marine Transportation
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Marine.Transportation_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Marine Transportation") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Marine.Transportation_OutputIndustry
+```
+
+### Mineral Extraction
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Mineral.Extraction_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Mineral Extraction") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Mineral.Extraction_OutputIndustry
+```
+
+### Research
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Research_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Research") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Research_OutputIndustry
+```
+
+### Ship and Boat Building
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Ship.and.Boat.Building_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Shipbuilding") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Ship.and.Boat.Building_OutputIndustry
+```
+
+### Tourism and Recreation
+
+
+```{r}
+mainPanel(
+  column(5,
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+  column(7,
+         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+```
+<br>
+<br>
+
+```{r}
+Tourism.and.Recreation_OutputIndustry <- EI_industry %>%
+  filter(Sector == "Tourism & Recreation") %>%
+  plot_ly(
+    width = 800,
+    height = 350,
+    labels = ~Industry,
+    values = ~Output,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Industries</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+Tourism.and.Recreation_OutputIndustry
+```
 
 
 
@@ -193,13 +547,54 @@ A similar matrix is provided for light attenuation. It is important to note that
 Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
 
 
-Column {data-width=500}
+Column {.tabset .tabset-fade data-width=650}
 -----------------------------------------------------------------------
 
-### SITE ATTAINMENT BY YEAR
+#### Ecosystem Services
+
+
+### Summary
+
+```{r}
+#| cache: true
+load(file = "data/habitats.RData")
+load(file = "data/watershed.RData")
+
+#mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE) + mapview(habitats, zcol = "Habitat", col.regions = c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00"), alpha.regions = 1.0, lwd = 0, layer.name = "Habitats", popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), feature.id = FALSE, row.numbers = FALSE))
+```
+
+
+text
+
+### Carbon Sequestration
+
+<br>
+```{r}
+mainPanel(
+  column(6,
+         selectInput('yrselseas', 'Select scale:', selected = "Per acre", choices = c("Per acre", "Total in Tampa Bay"))))
+```
 
 This is where the text goes
 
+### Denitrification
+
+<br>
+```{r}
+mainPanel(
+  column(6,
+         selectInput('yrselseas', 'Select scale:', selected = "Per acre", choices = c("Per acre", "Total in Tampa Bay"))))
+```
+
+This is where the text goes
+
+
+### Flood Protection (STATIC)
+
+
+```{r, fig.align='center', out.width='100%'}
+#knitr::include_graphics('img/floodprotection.PNG')
+```
 
 
 
