@@ -26,7 +26,7 @@ EI_contribution <- read.csv("data/EI_contribution.csv")
 # IMPACT: Output | CONTRIBUTION: Total
 OutputTotal <- EI_sector %>%
   filter(Contribution == "Total") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Output,
     type = "pie",
@@ -40,15 +40,15 @@ OutputTotal <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 OutputTotal
 
 # IMPACT: Output | CONTRIBUTION: Direct
 OutputDirect <- EI_sector %>%
   filter(Contribution == "Direct") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Output,
     type = "pie",
@@ -62,15 +62,15 @@ OutputDirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 OutputDirect
 
 # IMPACT: Output | CONTRIBUTION: Indirect
 OutputIndirect <- EI_sector %>%
   filter(Contribution == "Indirect") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Output,
     type = "pie",
@@ -84,15 +84,15 @@ OutputIndirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 OutputIndirect
 
 # IMPACT: Output | CONTRIBUTION: Induced
 OutputInduced <- EI_sector %>%
   filter(Contribution == "Induced") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Output,
     type = "pie",
@@ -106,15 +106,15 @@ OutputInduced <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 OutputInduced
 
 # IMPACT: Income | CONTRIBUTION: Total
 IncomeTotal <- EI_sector %>%
   filter(Contribution == "Total") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Personal.Income,
     type = "pie",
@@ -128,15 +128,15 @@ IncomeTotal <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 IncomeTotal
 
 # IMPACT: Income | CONTRIBUTION: Direct
 IncomeDirect <- EI_sector %>%
   filter(Contribution == "Direct") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Personal.Income,
     type = "pie",
@@ -150,15 +150,15 @@ IncomeDirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 IncomeDirect
 
 # IMPACT: Income | CONTRIBUTION: Indirect
 IncomeIndirect <- EI_sector %>%
   filter(Contribution == "Indirect") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Personal.Income,
     type = "pie",
@@ -172,15 +172,15 @@ IncomeIndirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 IncomeIndirect
 
 # IMPACT: Income | CONTRIBUTION: Induced
 IncomeInduced <- EI_sector %>%
   filter(Contribution == "Induced") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Personal.Income,
     type = "pie",
@@ -194,16 +194,16 @@ IncomeInduced <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 IncomeInduced
 
 
 # IMPACT: Employment | CONTRIBUTION: Total
 EmploymentTotal <- EI_sector %>%
   filter(Contribution == "Total") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Employment,
     type = "pie",
@@ -217,15 +217,15 @@ EmploymentTotal <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 EmploymentTotal
 
 # IMPACT: Employment | CONTRIBUTION: Direct
 EmploymentDirect <- EI_sector %>%
   filter(Contribution == "Direct") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Employment,
     type = "pie",
@@ -239,15 +239,15 @@ EmploymentDirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 EmploymentDirect
 
 # IMPACT: Employment | CONTRIBUTION: Indirect
 EmploymentIndirect <- EI_sector %>%
   filter(Contribution == "Indirect") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Employment,
     type = "pie",
@@ -261,15 +261,15 @@ EmploymentIndirect <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 EmploymentIndirect
 
 # IMPACT: Employment | CONTRIBUTION: Induced
 EmploymentInduced <- EI_sector %>%
   filter(Contribution == "Induced") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Sector,
     values = ~Employment,
     type = "pie",
@@ -283,9 +283,9 @@ EmploymentInduced <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 EmploymentInduced
 
 
@@ -295,7 +295,7 @@ EmploymentInduced
 # IMPACT: Output | ATTRIBUTE: Industry
 Defense_OutputIndustry <- EI_industry %>%
   filter(Sector == "Defense") %>%
-  plot_ly(
+    plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -309,15 +309,15 @@ Defense_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Defense_OutputContribution <- EI_sector %>%
   filter(Sector == "Defense" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -331,15 +331,15 @@ Defense_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Defense_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Defense") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -353,15 +353,15 @@ Defense_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Defense_IncomeContribution <- EI_sector %>%
   filter(Sector == "Defense" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -375,15 +375,15 @@ Defense_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Defense_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Defense") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -397,15 +397,15 @@ Defense_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Defense_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Defense" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -419,9 +419,9 @@ Defense_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Defense_EmploymentContribution
 
 #### * Living Resources #####
@@ -429,7 +429,7 @@ Defense_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Living.Resources_OutputIndustry <- EI_industry %>%
   filter(Sector == "Living Resources") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -443,16 +443,16 @@ Living.Resources_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_OutputIndustry
 
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Living.Resources_OutputContribution <- EI_sector %>%
   filter(Sector == "Living Resources" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -466,15 +466,15 @@ Living.Resources_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Living.Resources_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Living Resources") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -488,15 +488,15 @@ Living.Resources_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Living.Resources_IncomeContribution <- EI_sector %>%
   filter(Sector == "Living Resources" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -510,15 +510,15 @@ Living.Resources_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Living.Resources_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Living Resources") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -532,15 +532,15 @@ Living.Resources_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Living.Resources_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Living Resources" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -554,9 +554,9 @@ Living.Resources_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Living.Resources_EmploymentContribution
 
 #### * Marine Construction #####
@@ -564,7 +564,7 @@ Living.Resources_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Marine.Construction_OutputIndustry <- EI_industry %>%
   filter(Sector == "Marine Construction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -578,15 +578,15 @@ Marine.Construction_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Marine.Construction_OutputContribution <- EI_sector %>%
   filter(Sector == "Marine Construction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -600,15 +600,15 @@ Marine.Construction_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Marine.Construction_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Marine Construction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -622,15 +622,15 @@ Marine.Construction_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Marine.Construction_IncomeContribution <- EI_sector %>%
   filter(Sector == "Marine Construction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -644,15 +644,15 @@ Marine.Construction_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Marine.Construction_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Marine Construction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -666,15 +666,15 @@ Marine.Construction_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Marine.Construction_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Marine Construction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -688,9 +688,9 @@ Marine.Construction_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Construction_EmploymentContribution
 
 #### * Marine Transportation #####
@@ -698,7 +698,7 @@ Marine.Construction_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Marine.Transportation_OutputIndustry <- EI_industry %>%
   filter(Sector == "Marine Transportation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -712,15 +712,15 @@ Marine.Transportation_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Marine.Transportation_OutputContribution <- EI_sector %>%
   filter(Sector == "Marine Transportation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -734,15 +734,15 @@ Marine.Transportation_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Marine.Transportation_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Marine Transportation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -756,15 +756,15 @@ Marine.Transportation_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Marine.Transportation_IncomeContribution <- EI_sector %>%
   filter(Sector == "Marine Transportation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -778,15 +778,15 @@ Marine.Transportation_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Marine.Transportation_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Marine Transportation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -800,15 +800,15 @@ Marine.Transportation_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Marine.Transportation_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Marine Transportation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -822,9 +822,9 @@ Marine.Transportation_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Marine.Transportation_EmploymentContribution
 
 #### * Mineral Extraction #####
@@ -832,7 +832,7 @@ Marine.Transportation_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Mineral.Extraction_OutputIndustry <- EI_industry %>%
   filter(Sector == "Mineral Extraction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -846,15 +846,15 @@ Mineral.Extraction_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Mineral.Extraction_OutputContribution <- EI_sector %>%
   filter(Sector == "Mineral Extraction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -868,15 +868,15 @@ Mineral.Extraction_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Mineral.Extraction_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Mineral Extraction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -890,15 +890,15 @@ Mineral.Extraction_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Mineral.Extraction_IncomeContribution <- EI_sector %>%
   filter(Sector == "Mineral Extraction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -912,15 +912,15 @@ Mineral.Extraction_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Mineral.Extraction_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Mineral Extraction") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -934,15 +934,15 @@ Mineral.Extraction_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Mineral.Extraction_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Mineral Extraction" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -956,9 +956,9 @@ Mineral.Extraction_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Mineral.Extraction_EmploymentContribution
 
 #### * Research #####
@@ -966,7 +966,7 @@ Mineral.Extraction_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Research_OutputIndustry <- EI_industry %>%
   filter(Sector == "Research") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -980,15 +980,15 @@ Research_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Research_OutputContribution <- EI_sector %>%
   filter(Sector == "Research" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -1002,15 +1002,15 @@ Research_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Research_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Research") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -1024,15 +1024,15 @@ Research_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Research_IncomeContribution <- EI_sector %>%
   filter(Sector == "Research" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -1046,15 +1046,15 @@ Research_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Research_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Research") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -1068,15 +1068,15 @@ Research_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Research_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Research" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -1090,9 +1090,9 @@ Research_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Research_EmploymentContribution
 
 #### * Ship and Boat Building #####
@@ -1100,7 +1100,7 @@ Research_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Ship.and.Boat.Building_OutputIndustry <- EI_industry %>%
   filter(Sector == "Shipbuilding") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -1114,15 +1114,15 @@ Ship.and.Boat.Building_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Ship.and.Boat.Building_OutputContribution <- EI_sector %>%
   filter(Sector == "Ship and Boat Building" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -1136,15 +1136,15 @@ Ship.and.Boat.Building_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Ship.and.Boat.Building_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Shipbuilding") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -1158,15 +1158,15 @@ Ship.and.Boat.Building_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Ship.and.Boat.Building_IncomeContribution <- EI_sector %>%
   filter(Sector == "Ship and Boat Building" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -1180,15 +1180,15 @@ Ship.and.Boat.Building_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Ship.and.Boat.Building_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Shipbuilding") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -1202,15 +1202,15 @@ Ship.and.Boat.Building_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Ship.and.Boat.Building_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Ship and Boat Building" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -1224,9 +1224,9 @@ Ship.and.Boat.Building_EmploymentContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Ship.and.Boat.Building_EmploymentContribution
 
 #### * Tourism and Recreation #####
@@ -1234,7 +1234,7 @@ Ship.and.Boat.Building_EmploymentContribution
 # IMPACT: Output | ATTRIBUTE: Industry
 Tourism.and.Recreation_OutputIndustry <- EI_industry %>%
   filter(Sector == "Tourism & Recreation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Output,
     type = "pie",
@@ -1248,15 +1248,15 @@ Tourism.and.Recreation_OutputIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_OutputIndustry
 
 # IMPACT: Output | ATTRIBUTE: Contribution
 Tourism.and.Recreation_OutputContribution <- EI_sector %>%
   filter(Sector == "Tourism and Recreation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Output,
     type = "pie",
@@ -1270,15 +1270,15 @@ Tourism.and.Recreation_OutputContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_OutputContribution
 
 # IMPACT: Income | ATTRIBUTE: Industry
 Tourism.and.Recreation_IncomeIndustry <- EI_industry %>%
   filter(Sector == "Tourism & Recreation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Personal.Income,
     type = "pie",
@@ -1292,15 +1292,15 @@ Tourism.and.Recreation_IncomeIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_IncomeIndustry
 
 # IMPACT: Income | ATTRIBUTE: Contribution
 Tourism.and.Recreation_IncomeContribution <- EI_sector %>%
   filter(Sector == "Tourism and Recreation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Personal.Income,
     type = "pie",
@@ -1314,15 +1314,15 @@ Tourism.and.Recreation_IncomeContribution <- EI_sector %>%
   layout(
     legend = list(
       title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_IncomeContribution
 
 # IMPACT: Employment | ATTRIBUTE: Industry
 Tourism.and.Recreation_EmploymentIndustry <- EI_industry %>%
   filter(Sector == "Tourism & Recreation") %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Industry,
     values = ~Employment,
     type = "pie",
@@ -1336,15 +1336,15 @@ Tourism.and.Recreation_EmploymentIndustry <- EI_industry %>%
   layout(
     legend = list(
       title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "h"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_EmploymentIndustry
 
 # IMPACT: Employment | ATTRIBUTE: Contribution
 Tourism.and.Recreation_EmploymentContribution <- EI_sector %>%
   filter(Sector == "Tourism and Recreation" & Contribution %in% c("Direct","Indirect","Induced")) %>%
-  plot_ly(
+  plot_ly(width = 800, height = 350,
     labels = ~Contribution,
     values = ~Employment,
     type = "pie",
@@ -1362,17 +1362,17 @@ Tourism.and.Recreation_EmploymentContribution <- EI_sector %>%
       x = 0.3,
       y = -100),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
 Tourism.and.Recreation_EmploymentContribution
 
 
 layout(
   legend = list(
     title = list(text = "<b>Contributions</b>", side = "top"),
-    orientation = "h",
+    orientation = "v",
     valign = "top"),
   hoverlabel = list(
-    font = list(family = "Courier New", size = 16, color = "white")))
+    font = list(family = "Arial", size = 16, color = "white")))
 
 
 #### Property Values ####
