@@ -1380,11 +1380,70 @@ layout(
 
 load(file = "data/shoreline.RData")
 
-
 mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
   mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
 
+PV_values <- read.csv("data/PV_values.csv")
 
+PropertyValues1 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Number.of.properties,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Properties) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Number of properties close to coast"),
+    xaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues2 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Value.added.to.each.nearby.home,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Value) %>%
+  layout(
+    #title = "Benefit per Property",
+    yaxis = list(title = "Value added to each home ($)", tick0 = 0, dtick = 20000),
+    xaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues3 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Added.regional.value..billion.,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Benefit) %>%
+  layout(
+    #title = "Total Regional Benefit",
+    yaxis = list(title = "Value to all homes near coast ($ billion)"),
+    xaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues <- subplot(PropertyValues1, PropertyValues2, PropertyValues3, nrows = 1,
+                          titleY = TRUE, titleX = FALSE, margin = 0.06) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.09, text = "Properties Included", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.5, y = 1.09, text = "Benefit per Property", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.98, y = 1.09, text = "Total Regional Benefit", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+PropertyValues
 
 #### Ecosystem Service Evaluation ####
 
@@ -1416,157 +1475,185 @@ mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popu
 
 ES_carbon <- read.csv("data/ES_carbon.csv")
 
+# SCALE: Per-acre | FLOW: Sequestration
 
-# SCALE: Per-acre
-Carbon_PerAcre1 <- ggplot(ES_carbon, aes(x = Habitat, y = Per.acre.Sequestration..tonnes.CO2.ac.yr., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual carbon sequestration rate (tonnes CO2/ac/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,2.5)) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_PerAcre1
+CarbonSeq_PerAcre1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Sequestration..tonnes.CO2.ac.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(Per.acre.Sequestration..tonnes.CO2.ac.yr., "tonnes CO2 per acre annually")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Carbon_PerAcre2 <- ggplot(ES_carbon, aes(x = Habitat, y = Per.acre.Sequestration.Value....ac., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual value of carbon sequestered ($/ac/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,250)) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_PerAcre2
+CarbonSeq_PerAcre2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Sequestration.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Sequestration.Value....ac., digits = 0)), "per acre annually")) %>%
+  layout(
+    xaxis = list(title = "$/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Carbon_PerAcre3 <- ggplot(ES_carbon, aes(x = Habitat, y = Per.acre.Stock..tonnes.CO2.ac., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Current carbon stock (tonnes CO2/ac)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,350)) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_PerAcre3
+CarbonSeq_PerAcre <- subplot(CarbonSeq_PerAcre1, CarbonSeq_PerAcre2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Carbon Sequestration Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Carbon Sequestered", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+CarbonSeq_PerAcre
 
-Carbon_PerAcre4 <- ggplot(ES_carbon, aes(x = Habitat, y = Per.acre.Stock.Value....ac., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Value of current carbon stock ($/ac)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,30000), labels = scales::comma) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_PerAcre4
+# SCALE: Per-acre | FLOW: Stock
 
-grid.arrange(Carbon_PerAcre1, Carbon_PerAcre2, Carbon_PerAcre3, Carbon_PerAcre4, ncol = 2, nrow = 2)
+CarbonStock_PerAcre1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Stock..tonnes.CO2.ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Per.acre.Stock..tonnes.CO2.ac., digits = 0)), "tonnes CO2 per acre")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/ac"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_PerAcre2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Stock.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Stock.Value....ac., digits = 0), big.mark = ","), "per acre")) %>%
+  layout(
+    xaxis = list(title = "$/ac"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_PerAcre <- subplot(CarbonStock_PerAcre1, CarbonStock_PerAcre2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+CarbonStock_PerAcre
 
 
-# SCALE: Total
-Carbon_Total1 <- ggplot(ES_carbon, aes(x = Habitat, y = Total.Sequestration..tonnes.CO2.yr., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual carbon sequestration rate (tonnes CO2/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,500000), labels = scales::comma) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_Total1
+# SCALE: Total | FLOW: Sequestration
 
-Carbon_Total2 <- ggplot(ES_carbon, aes(x = Habitat, y = Total.Sequestration.Value...., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual value of carbon sequestered ($ million/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,50000000), labels = function(x)x/1000000) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_Total2
+CarbonSeq_Total1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Sequestration..tonnes.CO2.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Sequestration..tonnes.CO2.yr., digits = 0), big.mark = ","), "tonnes CO2 annually")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Carbon_Total3 <- ggplot(ES_carbon, aes(x = Habitat, y = Total.Stock..tonnes.CO2., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Current carbon stock (million tonnes CO2)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,40000000), labels = function(x)x/1000000) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_Total3
+CarbonSeq_Total2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Sequestration.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Total.Sequestration.Value...., digits = 0), big.mark = ","), "annually")) %>%
+  layout(
+    xaxis = list(title = "$/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Carbon_Total4 <- ggplot(ES_carbon, aes(x = Habitat, y = Total.Stock.Value...., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Value of current carbon stock ($ billion)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,4000000000), labels = function(x)x/1000000000) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#5C4A42","#78B7C5","#00806E","#F2AD00"))
-Carbon_Total4
+CarbonSeq_Total <- subplot(CarbonSeq_Total1, CarbonSeq_Total2, nrows = 1,
+                           titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Carbon Sequestration Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Carbon Sequestered", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+CarbonSeq_Total
 
-grid.arrange(Carbon_Total1, Carbon_Total2, Carbon_Total3, Carbon_Total4, ncol = 2, nrow = 2)
+
+# SCALE: Total | FLOW: Stock
+
+CarbonStock_Total1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Stock..tonnes.CO2.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Stock..tonnes.CO2., digits = 0), big.mark = ","), "tonnes CO2")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_Total2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Stock.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$",prettyNum(round(Total.Stock.Value...., digits = 0), big.mark = ","))) %>%
+  layout(
+    xaxis = list(title = "$"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_Total <- subplot(CarbonStock_Total1, CarbonStock_Total2, nrows = 1,
+                               titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+CarbonStock_Total
+
+
 
 
 
@@ -1576,154 +1663,183 @@ ES_denitrification <- read.csv("data/ES_denitrification.csv")
 
 
 # SCALE: Per-acre
-Denitrification_PerAcre1 <- ggplot(ES_denitrification, aes(x = Habitat, y = Per.acre.Denitrification..kg.N.ac.yr., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual denitrification rate (kg N/ac/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,40)) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+
+Denitrification_PerAcre1 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Denitrification..kg.N.ac.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste(Per.acre.Denitrification..kg.N.ac.yr., "kg N per acre annually")) %>%
+  layout(
+    xaxis = list(title = "kg N/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 Denitrification_PerAcre1
 
-
-Denitrification_PerAcre2 <- ggplot(ES_denitrification, aes(x = Habitat, y = Per.acre.Denitrification.Value....ac., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual value of denitrification services ($/ac/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,4000), labels = scales::comma) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_PerAcre2 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Denitrification.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Denitrification.Value....ac., digits = 0), big.mark = ","), "per acre annually")) %>%
+  layout(
+    xaxis = list(title = "$/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 Denitrification_PerAcre2
 
-grid.arrange(Denitrification_PerAcre1, Denitrification_PerAcre2, ncol = 2, nrow = 1)
+Denitrification_PerAcre <- subplot(Denitrification_PerAcre1, Denitrification_PerAcre2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+Denitrification_PerAcre
+
 
 
 # SCALE: Total
-Denitrification_Total1 <- ggplot(ES_denitrification, aes(x = Habitat, y = Total.Denitrification..kg.N.yr., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual denitrification rate (million kg N/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,6000000), labels = function(x)x/1000000) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+
+Denitrification_Total1 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Denitrification..kg.N.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Denitrification..kg.N.yr., digits = 0), big.mark = ","), "kg N annually")) %>%
+  layout(
+    xaxis = list(title = "kg N/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 Denitrification_Total1
 
-Denitrification_Total2 <- ggplot(ES_denitrification, aes(x = Habitat, y = Total.Denitrification.Value...., fill = Habitat)) +
-  geom_bar(stat = "identity") +
-  ylab("Annual value of denitrification services ($ million/yr)\n") +
-  theme(legend.position = "none",
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_blank(),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.x = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "gray85")) +
-  coord_flip() +
-  scale_x_discrete(limits = rev) +
-  scale_y_continuous(position = "right", limits = c(0,600000000), labels = function(x)x/1000000) +
-  scale_fill_manual(values = c("#004F7E","#9C974A","#962D14","#78B7C5","#00806E"))
+Denitrification_Total2 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Denitrification.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste("$",prettyNum(round(Total.Denitrification.Value...., digits = 0), big.mark = ","), "annually")) %>%
+  layout(
+    xaxis = list(title = "$/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 Denitrification_Total2
 
-grid.arrange(Denitrification_Total1, Denitrification_Total2, ncol = 2, nrow = 1)
-
+Denitrification_Total <- subplot(Denitrification_Total1, Denitrification_Total2, nrows = 1,
+                                   titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.96, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+Denitrification_Total
 
 
 #### * Flood Protection #####
 
 ES_flood <- read.csv("data/ES_flood.csv")
 
-Flood_Parcels <-
-  ggplot(ES_flood, aes(x = County, y = Number.of.Protected.Parcels, fill = Habitat)) +
-  geom_bar(position = "dodge", stat = "identity") +
-  ggtitle("Protected Parcels") +
-  ylab("Number of parcels\n") +
-  xlab("\nCounty") +
-  theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5),
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_text(face = "bold"),
-        axis.title.x = element_text(face = "bold"),
-        axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.ticks.length.y = unit(.3, "cm"),
-        panel.background = element_blank(),
-        panel.grid.major.y = element_line(colour = "gray85")) +
-  scale_y_continuous(limits = c(0,9000), labels = scales::comma) +
-  scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
-Flood_Parcels
+Flood_Parcels <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Number.of.Protected.Parcels,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 prettyNum(round(ES_flood$Number.of.Protected.Parcels, digits = 0), big.mark = ","),
+                 "parcels protected")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Number of parcels"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Flood_Values <-
-  ggplot(ES_flood, aes(x = County, y = Property.Values.in.Flood.Zone, fill = Habitat)) +
-    geom_bar(position = "dodge", stat = "identity") +
-  ggtitle("Property Values in Adjacent Flood Zone") +
-  ylab("Property values ($ billion)\n") +
-    xlab("\nCounty") +
-  theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5),
-        plot.margin = margin (.5,.5,.5,.5, "cm"),
-        axis.title.y = element_text(face = "bold"),
-          axis.title.x = element_text(face = "bold"),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.ticks.length.y = unit(.3, "cm"),
-          panel.background = element_blank(),
-          panel.grid.major.y = element_line(colour = "gray85")) +
-    scale_y_continuous(limits = c(0,7500000000), labels = function(x)x/1000000000) +
-    scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
-Flood_Values
+Flood_Values <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Property.Values.in.Flood.Zone,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 ES_flood$Values, "total property value")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Property values ($)"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-Flood_Benefits <-
-  ggplot(ES_flood, aes(x = County, y = Total.Flood.Protection.Benefits, fill = Habitat)) +
-    geom_bar(position = "dodge", stat = "identity") +
-  ggtitle("Flood Protection Benefits") +
-  ylab("Total benefits ($ million)\n") +
-    xlab("\nCounty") +
-    theme(legend.position = c(0.85,0.65),
-          legend.title = element_blank(),
-          legend.background = element_blank(),
-          plot.title = element_text(hjust = 0.5),
-          plot.margin = margin (.5,.5,.5,.5, "cm"),
-          axis.title.y = element_text(face = "bold"),
-          axis.title.x = element_text(face = "bold"),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.ticks.length.y = unit(.3, "cm"),
-          panel.background = element_blank(),
-          panel.grid.major.y = element_line(colour = "gray85")) +
-    scale_y_continuous(limits = c(0,950000000), labels = function(x)x/1000000) +
-    scale_fill_manual(values = c("#000000","#9C974A","#004F7E"))
-Flood_Benefits
+Flood_Benefits <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Total.Flood.Protection.Benefits,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 ES_flood$Benefits, "in benefits")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Total benefits ($)"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-grid.arrange(Flood_Parcels, Flood_Values, Flood_Benefits, ncol = 3, nrow = 1)
+FloodProtection <- subplot(Flood_Parcels, Flood_Values, Flood_Benefits, nrows = 1,
+                           titleY = TRUE, titleX = TRUE, margin = 0.06) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.04, y = 1.09, text = "Protected Properties", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.5, y = 1.09, text = "Property Values in Adjacent Flood Zone", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.99, y = 1.09, text = "Flood Protection Benefit", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+FloodProtection
+
 
 # Map
 
