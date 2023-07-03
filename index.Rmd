@@ -14,9 +14,8 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 # libraries
 library(flexdashboard)
-#library(tbeptools)
 library(shiny)
-library(tidyverse)
+library(dplyr)
 library(sf)
 library(mapview)
 library(RColorBrewer)
@@ -24,24 +23,51 @@ library(plotly)
 library(leafpop)
 library(gridExtra)
 library(leafsync)
-
-data(epcdata) #??????????
 ```
 
 
 ```{r reactives}
-myplot <- reactive({
+conpie <- reactive({
   
   # inputs
-  yrsel <- input$yrsel
+  secsel <- input$secsel
+  impsel <- input$impsel
   
-  toplo <- epcdata %>% 
-    filter(yr == yrsel) %>% 
-    pull(tn)
+  # filter and format input data
+  toplo <- EI_sector %>% 
+    filter(Contribution != 'Total') %>% 
+    filter(Sector %in% secsel) %>% 
+    rename(imp = !!impsel) %>% 
+    mutate(
+      lab = case_when(
+        impsel == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        T ~ paste("$", round(imp/1000000000, digits = 2), "billion")
+        )
+    )
   
-  hist(toplo)
+  # make the pie chart
+  out <- toplo %>% 
+    plot_ly(
+    labels = ~Contribution,
+    values = ~imp,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~lab) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Contributions</b>", side = "top"),
+      orientation = "h"),
+    hoverlabel = list(
+      font = list(family = "Courier New", size = 16, color = "white")))
   
-}) #??????????
+  return(out)
+  
+}) 
 
 ```
 
@@ -136,16 +162,46 @@ Economic Impacts of Industry Sectors {data-navmenu="Results"}
 Column {.tabset .tabset-fade data-width=275}
 -----------------------------------------------------------------------
 
-### Using this page
+### ABOUT
 
-This page shows the overall report card for the bay as management action categories:
+<font size="3">
+
+The economic impact analysis performed for this report estimates the economic contributions of estuary-dependent industries to the regional economy. 
+
+To capture the full impact of a region’s economy, this study includes <span style="color:#00806E">direct</span> effects (employment and spending), <span style="color:#00806E">indirect</span> effects (supply-chain-related spending), <span style="color:#00806E">induced</span> effects (household spending), and the combined <span style="color:#00806E">total</span> effects for Tampa Bay's economy.
+
+Monetary transactions (i.e., cash flows) between industries have been converted to three different measures of economic impact: (1) <span style="color:#00806E">output</span> represents the total annual production value of an industry; (2) <span style="color:#00806E">employment</span> captures the number of full-time, part-time, and seasonal jobs; (3) <span style="color:#00806E">personal income</span> represents all forms of employment income, including wages, benefits, and proprietor income.
+
+Businesses are grouped into <span style="color:#00806E">industries</span> based on definitions from the U.S. Bureau of Economic Analysis. Bay-dependent industry <span style="color:#00806E">sectors</span> comprise industries of businesses directly contingent on natural resources from Tampa Bay and its watershed.
+</font>
+
+<font size="4"><b>Results Summary</b></font>
+
+<font size="3">
+Overall, bay-dependent industry sectors directly support <span style="color:#00806E">142,820</span> employees and almost <span style="color:#00806E">\$7.1 billion</span> in personal income annually. All bay-dependent sectors account for <span style="color:#00806E">\$20.8 billion</span> in direct output or <span style="color:#00806E">6.6%</span> of the Tampa Bay watershed’s annual economic output.  
+
+Combining direct, indirect, and induced impacts from Tampa Bay-dependent industries resulted in <span style="color:#00806E">207,068</span> employees, <span style="color:#00806E">\$10.4 billion</span> in personal income, and <span style="color:#00806E">\$32.1 billion</span> in total output. This means about one in ten total jobs are bay-related, and about <span style="color:#00806E">10.8%</span> of the watershed’s total output is bay-related.
+</font>
 
 
-In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
 
-A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+### USING THIS PAGE
 
-Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+<font size="3">
+
+This page provides breakdowns of economic impacts by sector and industry. Users can explore the economic impacts for each sector (or all sectors) using the tabs on the right.
+
+When exploring <span style="color:#00806E">All Sectors</span> combined, select the desired measure of economic impact to display (output, employment, or income) and the type of contribution (total, direct, indirect, or induced) to see how each sector contributes to the total economic impact of Tampa Bay.
+
+When exploring <span style="color:#00806E">individual sectors</span>, there is an additional option to view the direct contributions of each industry to the total economic impact of that sector. 
+
+The charts in each tab are interactive and automatically adapt to the dropdown selections. The charts display the percent of the sector's economic impacts attributed to each industry or type of contribution. Hovering over the chart will display the absolute impact (in dollars or jobs) of the corresponding industry or type of contribution.
+
+<i>NOTE: Economic impacts of some sectors are entirely represented by a single industry. Although there are more industries comprising those sectors, they are not directly contingent on Tampa Bay's natural resources and thus are not shown in the legend.</i>
+
+</font>
+
+
 
 
 Column {.tabset .tabset-fade data-width=650}
@@ -161,7 +217,7 @@ tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#35
 ```
 
 
-### Total
+### All Sectors
 
 ```{r}
 mainPanel(
@@ -505,27 +561,124 @@ Tourism.and.Recreation_OutputIndustry
 Property Value Amenity Impacts {data-navmenu="Results"}
 ===========================================================
 
+
 Column {.tabset .tabset-fade data-width=275}
 -----------------------------------------------------------------------
 
-### Using this page
+### ABOUT
 
-This page shows the overall report card for the bay as management action categories:
+<font size="3">
+
+Proximity to valued amenities, such as waterfront views, generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. For this analysis, hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. It uses statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value.
+
+This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries (10,484 of which had been sold within the last two years) to estimate the added amenity value afforded by the bay to nearby properties (those within a quarter-mile of the shoreline).
+
+Two measures of property values were considered: <span style="color:#00806E">sale price</span> and <span style="color:#00806E">justified value</span>. In contrast to the sale price, the justified value is the value a property appraiser assigns to a parcel, which offers a more conservative lower bound for impacts on property values given its robustness to changing market conditions.
+</font>
+
+<font size="4"><b>Results Summary</b></font>
+
+<font size="3">
+The model with the strongest explanatory power was a regression on the justified value. This model found that for a comparable parcel, being within a quarter-mile of the water added about <span style="color:#00806E">\$52,769</span> to its justified value. Multiplying this added value by the number of single-family parcels within a quarter mile gives a total added value of <span style="color:#00806E">\$3.23 billion</span>.
+</font>
 
 
-In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+### USING THIS PAGE
 
-A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+<font size="3">
 
-Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+This page summarizes the results of the two best models quantifying the added benefit of bay-proximity to the sale price and justified value of homes in Tampa Bay.
+
+The <span style="color:#00806E">Area of Benefit</span> tab provides a map showing the quarter-mile shoreline buffer used to distinguish properties close to the coast from those far from the coast. The total estimated value added by bay-proximity is representative of all homes within this shoreline boundary, relative to all homes outside of that boundary.
+
+The <span style="color:#00806E">Property Benefits</span> tab provides a comparison of the results for properties' sale price and justified value. It highlights differences in (1) the number of properties near the coast that are included in the model, (2) the added amenity value per property, and (3) the total value added to all single-family properties near the coast.
+
+<i>NOTE: Although impacts to both sale price and justified value are featured in this dashboard, the authors recommend placing greater emphasis on the justified value results given the limitations inherent in the sale price model. See the full report for more detail. </i>
+
+</font>
 
 
-Column {data-width=500}
+Column {.tabset .tabset-fade data-width=650}
 -----------------------------------------------------------------------
 
-### SITE ATTAINMENT BY YEAR
+#### Property Value Amenity Impacts
 
-This is where the text goes
+### Area of Benefit (DONE)
+
+```{r}
+load(file = "data/shoreline.RData")
+load(file = "data/watershed.RData")
+
+mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
+  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
+```
+
+### Property Benefits (DONE)
+
+<br>
+```{r}
+PV_values <- read.csv("data/PV_values.csv")
+
+PropertyValues1 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Number.of.properties,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Properties) %>%
+  layout(
+      #title = "Properties Included in Model",
+      yaxis = list(title = "Number of properties close to coast"),
+      xaxis = list(title = ""),
+      hoverlabel = list(
+        font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues2 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Value.added.to.each.nearby.home,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Value) %>%
+  layout(
+    #title = "Benefit per Property",
+    yaxis = list(title = "Value added to each home ($)", tick0 = 0, dtick = 20000),
+    xaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues3 <- PV_values %>%
+  plot_ly(
+    width = 900,
+    height = 410,
+    x = ~Indicator,
+    y = ~Added.regional.value..billion.,
+    type = "bar",
+    marker = list(color = c("#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~Benefit) %>%
+  layout(
+    #title = "Total Regional Benefit",
+    yaxis = list(title = "Value to all homes near coast ($ billion)"),
+    xaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+PropertyValues <- subplot(PropertyValues1, PropertyValues2, PropertyValues3, nrows = 1,
+                          titleY = TRUE, titleX = FALSE, margin = 0.06) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.09, text = "Properties Included", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.5, y = 1.09, text = "Benefit per Property", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.98, y = 1.09, text = "Total Regional Benefit", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+PropertyValues
+```
 
 
 
@@ -535,17 +688,45 @@ Ecosystem Services {data-navmenu="Results"}
 Column {.tabset .tabset-fade data-width=275}
 -----------------------------------------------------------------------
 
-### Using this page
+### ABOUT
 
-This page shows the overall report card for the bay as management action categories:
+<font size="3">
+
+This study quantifies values associated with <span style="color:#00806E">carbon sequestration</span>, <span style="color:#00806E">flood protection</span>, and <span style="color:#00806E">denitrification</span> services provided by relevant habitats around the Tampa Bay estuary. The results are simplified estimates designed to raise awareness of the benefits afforded by ecosystem services and a prelude to future analyses and planning using more complete information and site-specific data. 
+
+The services provided by ecosystems have not traditionally been incorporated into valuations, effectively assigning them an implicit value of zero. Revealed preference methods were used in this study to value three regulating services: flood protection, water purification via denitrification, and climate regulation via carbon sequestration.
+
+</font>
+
+<font size="4"><b>Results Summary</b></font>
+
+<font size="3">
+Each year, habitats in the Tampa Bay watershed sequester approx. <span style="color:#00806E">595,719 metric tons of CO2</span> valued at <span style="color:#00806E">\$52.29 million</span>. Additionally, there is approx. <span style="color:#00806E">60.73 million metric tons of CO2</span> currently stored in the vegetation and soil of these habitats from previous years. If these habitats were lost, their emissions would be equivalent to <span style="color:#00806E">\$53 billion</span> in costs imposed on society.
+
+Each year, mangrove forests provide approx. <span style="color:#00806E">\$6.18 million</span>, salt marshes provide <span style="color:#00806E">\$0.6 million</span>, seagrass meadows provide <span style="color:#00806E">\$121 million</span>, and freshwater wetlands provide <span style="color:#00806E">\$579 million</span> in nitrogen removal services across the watershed. Together, these habitats remove more than <span style="color:#00806E">7.3 million kilograms of nitrogen</span> each year, providing approx. <span style="color:#00806E">\$715 million</span> worth of denitrification benefits that directly improve water quality.
+
+There are <span style="color:#00806E">8,996 properties</span> in the watershed that are in a Special Flood Hazard Area and are adjacent to mangroves, salt marshes, oyster bars, and/or seagrasses, together worth over <span style="color:#00806E">\$7.19 billion</span>. The flood reduction benefits provided by these mangroves and wetlands total approx. <span style="color:#00806E">\$924 million</span> over a 30-year period for a flood that has a 1% chance of occurrence in a given year. Hillsborough County receives the greatest benefits from wetlands (<span style="color:#00806E">\$457 million</span>), followed by Pinellas County (<span style="color:#00806E">\$397 million</span>) and Manatee County (<span style="color:#00806E">\$70.59 million</span>).
+
+</font>
 
 
-In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+### USING THIS PAGE
 
-A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+<font size="3">
 
-Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+This page summarizes the results of the different ecosystem service valuations for select habitats within the Tampa Bay watershed.
 
+The <span style="color:#00806E">Summary</span> tab provides a map showing the habitats contributing to carbon sequestration and denitrification services. The map is interactive. Users can click on different habitats to view the total area of the habitat in the watershed and the total valuation of its sequestration and denitrification services per year. Some habitats only contribute to  one of these ecosystem services. 
+
+In the <span style="color:#00806E">Carbon Sequestration</span> tab, select the desired scale (per acre or total for Tampa Bay) and type of carbon flow (sequestration or stock) from the dropdown lists to display graphs of the contributions of each habitat to carbon-related ecosystem services, including the quantity of carbon stored/sequestered and its associated valuation in dollars.
+
+Like the previous tab, select the desired scale in the <span style="color:#00806E">Denitrification</span> tab to compare the denitrification services between habitats in the watershed.
+
+The <span style="color:#00806E">Flood Protection</span> tab provides a comparison of two groups of habitats (mangroves and wetlands) within different counties in the watershed. Graphs display (1) the number of properties protected from flooding, (2) the total value of all properties in a flood zone adjacent to the habitat, and (3) the total flood protection benefits to those properties by different habitats in different counties. The graphs are interactive. Users can hover over the data to view the precise results for a given habitat.
+
+<i>NOTE: The following habitats are combined to represent estuarine wetlands in the flood protection analysis: oyster bars, seagrasses, and saltwater marshes.</i>
+
+</font>
 
 Column {.tabset .tabset-fade data-width=650}
 -----------------------------------------------------------------------
@@ -553,49 +734,416 @@ Column {.tabset .tabset-fade data-width=650}
 #### Ecosystem Services
 
 
-### Summary
+### Summary (FIX)
 
 ```{r}
-#| cache: true
+
 load(file = "data/habitats.RData")
 load(file = "data/watershed.RData")
 
-#mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE) + mapview(habitats, zcol = "Habitat", col.regions = c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00"), alpha.regions = 1.0, lwd = 0, layer.name = "Habitats", popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), feature.id = FALSE, row.numbers = FALSE))
+#map1 <- mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE)
+#map2 <- habitats %>% select(Habitat, Area, Sequestration, Denitrification) %>% mapview(zcol = "Habitat", col.regions = c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00"), alpha.regions = 1.0, lwd = 0, layer.name = "Habitats", popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), feature.id = FALSE, row.numbers = FALSE))
+#map1 + map2
 ```
 
 
-text
 
-### Carbon Sequestration
+### Carbon Sequestration (READY)
 
-<br>
 ```{r}
 mainPanel(
   column(6,
-         selectInput('yrselseas', 'Select scale:', selected = "Per acre", choices = c("Per acre", "Total in Tampa Bay"))))
+         selectInput('yrselseas', 'Select scale:', selected = "Per Acre", choices = c("Per Acre", "Total in Tampa Bay"))),
+  column(6,
+         selectInput('yrselseas', 'Select flow:', selected = "Sequestration", choices = c("Sequestration", "Current Stock"))))
+```
+<br>
+<br>
+<br>
+
+```{r}
+# SCALE: Per-acre | FLOW: Sequestration
+
+ES_carbon <- read.csv("data/ES_carbon.csv")
+
+CarbonSeq_PerAcre1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Sequestration..tonnes.CO2.ac.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(Per.acre.Sequestration..tonnes.CO2.ac.yr., "tonnes CO2 per acre annually")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonSeq_PerAcre2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Sequestration.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Sequestration.Value....ac., digits = 0)), "per acre annually")) %>%
+  layout(
+    xaxis = list(title = "$/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonSeq_PerAcre <- subplot(CarbonSeq_PerAcre1, CarbonSeq_PerAcre2, nrows = 1,
+                          titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Carbon Sequestration Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Carbon Sequestered", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+CarbonSeq_PerAcre
 ```
 
-This is where the text goes
 
-### Denitrification
+```{r}
+# SCALE: Per-acre | FLOW: Stock
 
-<br>
+CarbonStock_PerAcre1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Stock..tonnes.CO2.ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Per.acre.Stock..tonnes.CO2.ac., digits = 0)), "tonnes CO2 per acre")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/ac"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_PerAcre2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Stock.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Stock.Value....ac., digits = 0), big.mark = ","), "per acre")) %>%
+  layout(
+    xaxis = list(title = "$/ac"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_PerAcre <- subplot(CarbonStock_PerAcre1, CarbonStock_PerAcre2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+#CarbonStock_PerAcre
+```
+
+```{r}
+# SCALE: Total | FLOW: Sequestration
+
+CarbonSeq_Total1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Sequestration..tonnes.CO2.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Sequestration..tonnes.CO2.yr., digits = 0), big.mark = ","), "tonnes CO2 annually")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonSeq_Total2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Sequestration.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Total.Sequestration.Value...., digits = 0), big.mark = ","), "annually")) %>%
+  layout(
+    xaxis = list(title = "$/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonSeq_Total <- subplot(CarbonSeq_Total1, CarbonSeq_Total2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Carbon Sequestration Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Carbon Sequestered", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+#CarbonSeq_Total
+```
+
+
+```{r}
+# SCALE: Total | FLOW: Stock
+
+CarbonStock_Total1 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Stock..tonnes.CO2.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Stock..tonnes.CO2., digits = 0), big.mark = ","), "tonnes CO2")) %>%
+  layout(
+    xaxis = list(title = "tonnes CO2"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_Total2 <- ES_carbon %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Stock.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    hoverinfo = "text",
+    text = ~paste("$",prettyNum(round(Total.Stock.Value...., digits = 0), big.mark = ","))) %>%
+  layout(
+    xaxis = list(title = "$"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+CarbonStock_Total <- subplot(CarbonStock_Total1, CarbonStock_Total2, nrows = 1,
+                               titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.05, y = 1.1, text = "Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.94, y = 1.1, text = "Value of Current Carbon Stock", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+#CarbonStock_Total
+```
+
+
+
+### Denitrification (READY)
+
+
 ```{r}
 mainPanel(
   column(6,
-         selectInput('yrselseas', 'Select scale:', selected = "Per acre", choices = c("Per acre", "Total in Tampa Bay"))))
+         selectInput('yrselseas', 'Select scale:', selected = "Per Acre", choices = c("Per Acre", "Total in Tampa Bay"))))
+```
+<br>
+<br>
+<br>
+
+```{r}
+# SCALE: Per-acre
+
+ES_denitrification <- read.csv("data/ES_denitrification.csv")
+
+Denitrification_PerAcre1 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Denitrification..kg.N.ac.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste(Per.acre.Denitrification..kg.N.ac.yr., "kg N per acre annually")) %>%
+  layout(
+    xaxis = list(title = "kg N/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+Denitrification_PerAcre2 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Per.acre.Denitrification.Value....ac.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste("$", prettyNum(round(Per.acre.Denitrification.Value....ac., digits = 0), big.mark = ","), "per acre annually")) %>%
+  layout(
+    xaxis = list(title = "$/ac/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+Denitrification_PerAcre <- subplot(Denitrification_PerAcre1, Denitrification_PerAcre2, nrows = 1,
+                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.09, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.96, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+Denitrification_PerAcre
 ```
 
-This is where the text goes
 
+```{r}
+# SCALE: Total
 
-### Flood Protection (STATIC)
+Denitrification_Total1 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Denitrification..kg.N.yr.,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste(prettyNum(round(Total.Denitrification..kg.N.yr., digits = 0), big.mark = ","), "kg N annually")) %>%
+  layout(
+    xaxis = list(title = "kg N/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
+Denitrification_Total2 <- ES_denitrification %>%
+  plot_ly(
+    width = 900,
+    height = 325,
+    y = ~Habitat,
+    x = ~Total.Denitrification.Value....,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
+    hoverinfo = "text",
+    text = ~paste("$",prettyNum(round(Total.Denitrification.Value...., digits = 0), big.mark = ","), "annually")) %>%
+  layout(
+    xaxis = list(title = "$/yr"),
+    yaxis = list(title = ""),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
 
-```{r, fig.align='center', out.width='100%'}
-#knitr::include_graphics('img/floodprotection.PNG')
+Denitrification_Total <- subplot(Denitrification_Total1, Denitrification_Total2, nrows = 1,
+                                   titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.09, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.96, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+#Denitrification_Total
 ```
 
+
+### Flood Protection (DONE)
+
+<br>
+```{r}
+ES_flood <- read.csv("data/ES_flood.csv")
+
+Flood_Parcels <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Number.of.Protected.Parcels,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 prettyNum(round(ES_flood$Number.of.Protected.Parcels, digits = 0), big.mark = ","), 
+                 "parcels protected")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Number of parcels"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+Flood_Values <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Property.Values.in.Flood.Zone,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 ES_flood$Values, "total property value")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Property values ($)"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+Flood_Benefits <- ES_flood %>%
+  plot_ly(
+    width = 900,
+    height = 400,
+    x = ~County,
+    y = ~Total.Flood.Protection.Benefits,
+    type = "bar",
+    #marker = list(color = c("#00806E","#004F7E")),
+    transforms = list(list(type = "groupby", groups = ~Habitat, styles = list(
+      list(target = "Wetlands", value = list(marker = list(color = "#004F7E"))),
+      list(target = "Mangroves", value = list(marker = list(color = "#9C974A"))),
+      list(target = "All habitats", value = list(marker = list(color = "#000000")))
+    ))),
+    hoverinfo = "text",
+    text = paste(ES_flood$Habitat, ":<br>",
+                 ES_flood$Benefits, "in benefits")) %>%
+  layout(
+    #title = "Properties Included in Model",
+    yaxis = list(title = "Total benefits ($)"),
+    xaxis = list(title = "County"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+
+FloodProtection <- subplot(Flood_Parcels, Flood_Values, Flood_Benefits, nrows = 1,
+                          titleY = TRUE, titleX = TRUE, margin = 0.06) %>%
+  layout(showlegend = FALSE,
+         annotations = list(
+           list(x = 0.04, y = 1.09, text = "Protected Properties", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.5, y = 1.09, text = "Property Values in Adjacent Flood Zone", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.99, y = 1.09, text = "Flood Protection Benefit", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
+FloodProtection
+```
 
 
 Economic Impacts of Industry Sectors {data-navmenu="Methods"}
@@ -628,27 +1176,54 @@ This is where the text goes
 Property Value Amenity Impacts {data-navmenu="Methods"}
 ===========================================================
 
-Column {.tabset .tabset-fade data-width=275}
+Column {data-width=700}
 -----------------------------------------------------------------------
 
-### Using this page
+<div class = "row">
+<div class = "col-md-2"></div>
+<div class = "col-md-8">
 
-This page shows the overall report card for the bay as management action categories:
+#### Property Value Amenity Impacts
 
+Proximity to valued resources— to amenities, such as parks and waterfront views— generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. Unlike commercial applications of natural resources, however, the premium of proximity to amenities can only change hands, its value is inherent in its location. Unbundling the amenity value added to a property from its physical characteristics is generally accomplished through two kinds of valuation methods: stated preference (surveys) and revealed preference methods.25 Since survey research was outside of the scope of this analysis, the revealed preference method of hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. Hedonic pricing approaches use statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value. 
 
-In the above example, the attainment outcome for Old Tampa Bay in 1980 was <span style="color:#CC3231">On Alert</span>.  Additional information on chlorophyll and light attenuation outcomes that drive the overall attainment outcome are also provided.  Old Tampa Bay received an outcome of "3" for both chlorophyll and light attenuation results in 1980.  Possible integer values range from 0 to 3, with three indicating water quality conditions less suitable for seagrass growth.  The integer values describe both a magnitude and duration of exceedance for chlorophyll or light attenuation targets: 
+This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries, of which 10,484 had been sold within the last two years. Through an iterative process, the project team determined which of more than one hundred different elements of a property had a statistically significant effect on its value. These include obvious attributes that add value, such as land, square footage, the presence of special features, and the age of the structure, all of which were included and thus ‘controlled for’ in the analysis. 
 
-A similar matrix is provided for light attenuation. It is important to note that in both the chlorophyll and light attenuation matrices, the reference values represent a large exceedance value defined as twice the standard error of the historic average for years when water quality conditions were favorable for seagrass growth. 
+Ultimately, four regression models were created using two different regression methods to explore the added amenity value afforded by Tampa Bay to nearby properties. The analysis employed a quarter-mile buffer around the bay and its four major tributaries— Hillsborough River, Alafia River, Little Manatee River, and Manatee River— as a dividing line between property groups. All properties were either ‘close to the coast’ (within a quarter-mile) or ‘far from the coast’ (beyond a quarter-mile), and this element was added as a variable to each property. A more detailed accounting of these methods, and all four of these models, can be found in the report’s appendix (see Hedonic Analysis of Property Values). 
 
-Finally, an interactive map is provided on the right to demonstrate which stations were above or below water quality targets or thresholds defined for each bay segment.  The points are color-coded to show if the target or threshold was met and sized by the relative concentration or attenuation values observed in the selected year.  Hovering the mouse pointer over each station will show the following: 
+<br>
+ 
+```{r, fig.align='center', out.width='5%'}
+knitr::include_graphics('img/spacer.PNG')
+```
 
+<br>
+ 
+```{r, fig.align='center', out.width='50%'}
+knitr::include_graphics('img/regressions.PNG')
+```
 
-Column {data-width=500}
------------------------------------------------------------------------
+#### Using the dashboard
 
-### SITE ATTAINMENT BY YEAR
+Explore the methods and results of the study through the different pages of this dashboard. Tampa Bay’s value is illustrated in three different ways:
 
-This is where the text goes
+1) Economic Impacts of Industry Sectors. This page summarizes the annual economic impacts, including output, jobs, and wages, generated by bay-dependent industries on the economy.
+1) Property Value Amenity Impacts. This page examines the effects of bay proximity on property value premiums for single-family homes within a quarter mile of the water. 
+1) Ecosystem Services. This page highlights the value of ecosystem services (carbon sequestration, denitrification, and flood protection) provided by habitats across Tampa Bay, such as mangrove forests, saltwater marshes, and freshwater wetlands. 
+
+Methodological summaries for each of these three analyses can be found in the Methods pages. For more detailed information regarding data sources, calculations, modelling, and results, consult the full 2023 Economic Valuation of Tampa Bay report, which can be downloaded using the link on the right side of this page.
+<br>
+ 
+```{r, fig.align='center', out.width='5%'}
+knitr::include_graphics('img/spacer.PNG')
+```
+
+<a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/88x31.png' /></a>&nbsp;&nbsp;This website is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International License</a>.
+
+</div>
+<div class = "col-md-2"></div>
+</div>
+
 
 
 
