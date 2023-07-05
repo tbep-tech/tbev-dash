@@ -30,33 +30,34 @@ downloadButtonRmd <- function (outputId, label = "Download", class = NULL, ...) 
          icon("download"), label, ...)
 }
 
+tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
+
 ```
 
 
 ```{r reactives}
-conpie <- reactive({
+allsectors_pie <- reactive({
   
   # inputs
-  secsel <- input$secsel
-  impsel <- input$impsel
+  impact_selection <- input$impact_selection
+  contribution_selection <- input$contribution_selection
   
   # filter and format input data
-  toplo <- EI_sector %>% 
-    filter(Contribution != 'Total') %>% 
-    filter(Sector %in% secsel) %>% 
-    rename(imp = !!impsel) %>% 
+  mydata <- EI_sector %>% 
+    filter(Contribution %in% contribution_selection) %>% 
+    rename(imp = !!impact_selection) %>% 
     mutate(
       lab = case_when(
-        impsel == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
-        T ~ paste("$", round(imp/1000000000, digits = 2), "billion")
+        impact_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))
         )
     )
   
   # make the pie chart
-  out <- toplo %>% 
-    plot_ly(
-    labels = ~Contribution,
-    values = ~imp,
+  out <- mydata %>% 
+    plot_ly(width = 800, height = 350,
+    labels = ~Sector,
+    values = ~imp, #***************************
     type = "pie",
     sort = FALSE,
     direction = "clockwise",
@@ -67,14 +68,17 @@ conpie <- reactive({
     text = ~lab) %>%
   layout(
     legend = list(
-      title = list(text = "<b>Contributions</b>", side = "top"),
-      orientation = "h"),
+      title = list(text = "<b>Sectors</b>", side = "top"),
+      orientation = "v"),
     hoverlabel = list(
-      font = list(family = "Courier New", size = 16, color = "white")))
+      font = list(family = "Arial", size = 16, color = "white")))
   
   return(out)
   
 }) 
+
+
+
 
 ```
 
@@ -251,7 +255,6 @@ Column {.tabset .tabset-fade data-width=650}
 EI_sector <- read.csv("data/EI_sector.csv")
 EI_industry <- read.csv("data/EI_industry.csv")
 EI_contribution <- read.csv("data/EI_contribution.csv")
-tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
 ```
 
 
@@ -647,8 +650,8 @@ Column {.tabset .tabset-fade data-width=650}
 load(file = "data/shoreline.RData")
 load(file = "data/watershed.RData")
 
-mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
-  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
+#mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
+#  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
 ```
 
 ### Property Benefits (DONE)
@@ -1365,7 +1368,7 @@ parcelmap <- parcels %>%
 habitatmaps <- mapview(wetlands, col.regions = "#004F7E", lwd = 0, alpha.regions = 1.0, layer.name = "Wetlands", label = "FLUCCSDESC", popup = FALSE) +
   mapview(mangroves, col.regions = "#9C974A", lwd = 0, alpha.regions = 1.0, layer.name = "Mangroves", label = "FLUCCSDESC", popup = FALSE)
 
-sync(habitatmaps, parcelmap)
+#sync(habitatmaps, parcelmap)
 ```
 
 <br>
