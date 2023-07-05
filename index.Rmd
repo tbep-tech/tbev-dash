@@ -87,24 +87,43 @@ allsectors_pie <- reactive({
   return(out)
 }) 
 
-Defense_pie <- reactive({
+
+sector_pie <- reactive({
   # inputs
-  impact_selection <- input$impact_selection
+  impact_sector_selection <- input$impact_sector_selection
   attribute_selection <- input$attribute_selection
+  sector_selection <- input$sector_selection
+  
   # filter and format input data
-  mydata <- EI_industry %>% 
-    filter(Sector == "Defense") %>% 
-    filter(Attribute %in% attribute_selection) %>% 
-    rename(imp = !!impact_selection) %>% 
-    rename(att = !!attribute_selection) %>% 
+  if(attribute_selection == "Contribution"){
+  mydata <- EI_sector %>% 
+    filter(Sector == sector_selection & Contribution != "Total") %>% 
+    rename(imp = !!impact_sector_selection,
+           attribute = Contribution) %>% 
     mutate(
       lab = case_when(
-        impact_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        impact_sector_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
         T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))))
+      legendtitle <- "<b>Contribution</b>"
+}
+  
+    if(attribute_selection == "Industry"){
+  mydata <- EI_industry %>% 
+    filter(Sector == sector_selection) %>% 
+    rename(imp = !!impact_sector_selection,
+           attribute = Industry) %>% 
+    mutate(
+      lab = case_when(
+        impact_sector_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))))
+    legendtitle <- "<b>Industry</b>"
+  }
+  
+  
   # make the pie chart
   out <- mydata %>% 
     plot_ly(width = 800, height = 350,
-    labels = ~att,
+    labels = ~attribute,
     values = ~imp,
     type = "pie",
     sort = FALSE,
@@ -116,12 +135,14 @@ Defense_pie <- reactive({
     text = ~lab) %>%
   layout(
     legend = list(
-      title = list(text = "<b>Sectors</b>", side = "top"),
+      title = list(text = legendtitle, side = "top"),
       orientation = "v"),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
   return(out)
 }) 
+
+
 
 
 
@@ -328,7 +349,7 @@ This page provides breakdowns of economic impacts by sector and industry. Users 
 
 When exploring <span style="color:#00806E">All Sectors</span> combined, select the desired measure of economic impact to display (output, employment, or income) and the type of contribution (total, direct, indirect, or induced) to see how each sector contributes to the total economic impact of Tampa Bay.
 
-When exploring <span style="color:#00806E">individual sectors</span>, there is an additional option to view the direct contributions of each industry to the total economic impact of that sector. 
+When exploring <span style="color:#00806E">Individual Sectors</span>, select the sector of interest, the measure of economic impact to display, and distinguish by type of contribution or the direct contributions of each industry. 
 
 The charts in each tab are interactive and automatically adapt to the dropdown selections. The charts display the percent of the sector's economic impacts attributed to each industry or type of contribution. Hovering over the chart will display the absolute impact (in dollars or jobs) of the corresponding industry or type of contribution.
 
@@ -362,287 +383,25 @@ output$allsectors_pie <- renderPlotly(allsectors_pie())
 plotlyOutput("allsectors_pie")
 ```
 
-### Defense
+### Individual Sectors
 
 ```{r}
-mainPanel(
-  column(6,
-         selectInput('impact_selection', 'Select economic impact:', selected = "Output", choices = list("Output" = "Output", "Employment" = "Employment","Income" = "Personal.Income"))),
-  column(6,
-         selectInput('attribute_selection', 'Select attribute:', selected = "Direct Industry Breakdown", choices = c("Direct Industry Breakdown" = "Direct.Industry.Breakdown", "Type of Contribution" = "Type.of.Contribution"))))
+column(12,
+  column(4,
+         selectInput('sector_selection', 'Select sector:', selected = "Marine Construction", choices = unique(EI_sector$Sector))),
+  column(4,
+         selectInput('impact_sector_selection', 'Select economic impact:', selected = "Output", choices = list("Output" = "Output", "Employment" = "Employment","Income" = "Personal.Income"))),
+  column(4,
+           selectInput('attribute_selection', 'Select attribute:', selected = "Direct Industry Breakdown", choices = c("Direct Industry Breakdown" = "Industry", "Type of Contribution" = "Contribution"))))
 ```
 <br>
 <br>
 
 ```{r}
-output$Defense_pie <- renderPlotly(Defense_pie())
-plotlyOutput("Defense_pie")
+output$sector_pie <- renderPlotly(sector_pie())
+plotlyOutput("sector_pie")
 ```
 
-### Living Resources
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Living.Resources_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Living Resources") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Living.Resources_OutputIndustry
-```
-
-### Marine Construction
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Marine.Construction_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Marine Construction") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Marine.Construction_OutputIndustry
-```
-
-### Marine Transportation
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Marine.Transportation_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Marine Transportation") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Marine.Transportation_OutputIndustry
-```
-
-### Mineral Extraction
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Mineral.Extraction_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Mineral Extraction") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Mineral.Extraction_OutputIndustry
-```
-
-### Research
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Research_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Research") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Research_OutputIndustry
-```
-
-### Ship and Boat Building
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Ship.and.Boat.Building_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Shipbuilding") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Ship.and.Boat.Building_OutputIndustry
-```
-
-### Tourism and Recreation
-
-
-```{r}
-mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
-```
-<br>
-<br>
-
-```{r}
-Tourism.and.Recreation_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Tourism & Recreation") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Direct.Industry.Breakdown,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Tourism.and.Recreation_OutputIndustry
-```
 
 
 
