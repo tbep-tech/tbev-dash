@@ -790,21 +790,21 @@ Column {.tabset .tabset-fade data-width=650}
 load(file = "data/habitats.RData")
 load(file = "data/watershed.RData")
 
+output$habitat_map <- renderLeaflet(habitat_map())
 
-mainPanel(
-  column(6,
-         selectInput('habitat_selection', 'Select habitat:', selected = "Oyster Bars", choices = c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses"))))
+fillCol(flex = c(NA, 1),
+        column(6,
+               selectInput('habitat_selection', 'Select habitat:', selected = "Oyster Bars", choices = c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses"))),
+        leafletOutput('habitat_map')
+)
+
 ```
 <br>
 <br>
 
 ```{r}
 #map1 <- mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE)
-output$habitat_map <- renderLeaflet(habitat_map())
-leafletOutput("habitat_map")
-
 #map1 + map2
-
 #st_simplify
 ```
 
