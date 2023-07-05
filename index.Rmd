@@ -41,7 +41,7 @@ allsectors_pie <- reactive({
   # inputs
   impact_selection <- input$impact_selection
   contribution_selection <- input$contribution_selection
-  
+
   # filter and format input data
   mydata <- EI_sector %>% 
     filter(Contribution %in% contribution_selection) %>% 
@@ -57,7 +57,7 @@ allsectors_pie <- reactive({
   out <- mydata %>% 
     plot_ly(width = 800, height = 350,
     labels = ~Sector,
-    values = ~imp, #***************************
+    values = ~imp,
     type = "pie",
     sort = FALSE,
     direction = "clockwise",
@@ -77,7 +77,34 @@ allsectors_pie <- reactive({
   
 }) 
 
+habitat_map <- reactive({
+  
+  # inputs
+  habitat_selection <- input$habitat_selection
+  brower()
 
+  # filter and format input data
+  mydata <- habitats %>% 
+    filter(Habitat %in% habitat_selection)
+
+  cols <- c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00")
+  names(cols) <- c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", 
+                 "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses")
+  color_selection <- cols[[habitat_selection]]
+
+  # make the map
+  out <- mydata %>% 
+    select(Habitat, Area, Sequestration, Denitrification) %>% 
+    mapview(zcol = "Habitat", 
+            col.regions = color_selection, 
+            alpha.regions = 1.0, 
+            lwd = 0, 
+            layer.name = "Habitat", 
+            popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), 
+                               feature.id = FALSE, row.numbers = FALSE))
+  
+  return(out)
+})
 
 
 ```
@@ -263,36 +290,17 @@ EI_contribution <- read.csv("data/EI_contribution.csv")
 ```{r}
 mainPanel(
   column(6,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+         selectInput('impact_selection', 'Select economic impact:', selected = "Output", choices = list("Output" = "Output", "Employment" = "Employment","Income" = "Personal.Income"))),
   column(6,
-         selectInput('yrselseas', 'Select contribution:', selected = "Total", choices = c("Total", "Direct","Indirect","Induced"))))
+         selectInput('contribution_selection', 'Select contribution:', selected = "Total", choices = c("Total", "Direct","Indirect","Induced"))))
 ```
 <br>
 <br>
 
 ```{r}
-OutputTotal <- EI_sector %>%
-  filter(Contribution == "Total") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Sector,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Sectors</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-OutputTotal
+output$allsectors_pie <- renderPlotly(allsectors_pie())
+plotlyOutput("allsectors_pie")
+
 ```
 
 ### Defense
@@ -300,7 +308,7 @@ OutputTotal
 ```{r}
 mainPanel(
   column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = c("Output", "Employment","Income"))),
+         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = list("Output", "Employment","Income"))),
   column(7,
          selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
 ```
@@ -778,13 +786,26 @@ Column {.tabset .tabset-fade data-width=650}
 ### Summary (FIX)
 
 ```{r}
-
 load(file = "data/habitats.RData")
 load(file = "data/watershed.RData")
 
+
+mainPanel(
+  column(6,
+         selectInput('habitat_selection', 'Select habitat:', selected = "Oyster Bars", choices = c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses"))))
+```
+<br>
+<br>
+
+```{r}
 #map1 <- mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE)
-#map2 <- habitats %>% select(Habitat, Area, Sequestration, Denitrification) %>% mapview(zcol = "Habitat", col.regions = c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00"), alpha.regions = 1.0, lwd = 0, layer.name = "Habitats", popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), feature.id = FALSE, row.numbers = FALSE))
+
+output$habitat_map <- renderMapview(habitat_map())
+mapviewOutput("habitat_map")
+
 #map1 + map2
+
+#st_simplify
 ```
 
 
