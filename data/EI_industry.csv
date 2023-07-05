@@ -1,42 +1,66 @@
-Sector,Industry,Employment,Personal Income,Output
-Defense,"Employment and payroll of federal govt, military",12622.21764,1175632253,1551383790
-Living Resources,Vegetable and melon farming,2679.832118,58959574.69,312345224.4
-Living Resources,Fruit farming,3955.510514,63302188.98,304949316.8
-Living Resources,Canned fruits and vegetables manufacturing,898.5643555,89962955.1,552712381.8
-Living Resources,"Greenhouse, nursery, and floriculture production",2246.793899,69398154.11,208011670.2
-Living Resources,Grain farming,1.970029293,45617.21522,434177.8195
-Living Resources,Tree nut farming,1.681117208,40237.0816,138834.6425
-Living Resources,All other crop farming,542.7600489,3208304.703,5647089.6
-Living Resources,Beef cattle ranching and farming,215.8343443,629728.6327,35763604.93
-Living Resources,Dairy cattle and milk production,67.31347521,1508584.444,35628124.73
-Living Resources,Poultry and egg production,33.46503391,1504247.237,11173853.25
-Living Resources,"Animal production, except cattle and poultry and eggs",231.3214466,3663098.373,33895529.72
-Living Resources,"Forestry, forest products, and timber tract production",94.9818366,5702829.706,9113351.442
-Living Resources,Commercial logging,94.51650678,5597009.801,10857494.44
-Living Resources,Commercial fishing,234.2970015,2817375.979,44943156.09
-Living Resources,Commercial hunting and trapping,12.31292172,354596.5361,8373601.266
-Living Resources,Support activities for agriculture and forestry,7218.783104,167486381.5,239700844.1
-Living Resources,Seafood product preparation and packaging,688.735779,31933230.77,285102868.4
-Marine Construction,Construction of other new nonresidential structures,8434.643452,396285657.1,1378588606
-Marine Construction,Maintenance and repair of nonresidential structures,8587.10415,402079265.4,2072080377
-Marine Construction,"Maintenance and repair of roads, bridges, and tunnels",1503.12152,72782003.16,367307627.9
-Marine Construction,"Architectural, engineering, and related services",20955.30306,1649894438,3611892028
-Marine Construction,Landscape and horticultural services,13649.66148,454063602.3,1142736400
-Marine Transportation,Water transportation,524.4441362,31177638,357356513.5
-Marine Transportation,Pipeline transportation,206.0722275,20471455.27,84248046.63
-Marine Transportation,Scenic and sightseeing transportation,9229.243022,444183187.8,1396605542
-Mineral Extraction,Fertilizer mixing,226.6265905,28345600.57,171153766.4
-Mineral Extraction,Stone mining and quarrying,150.0699282,3533574.657,55062706.81
-Mineral Extraction,Sand and gravel mining,129.300088,9691383.784,49753143.78
-Mineral Extraction,Uranium-radium-vanadium ore mining,45.83146536,3194750.84,24406196.52
-Mineral Extraction,Other nonmetallic minerals,15.58147826,1180924.242,6401103.881
-Mineral Extraction,Support activities for oil and gas operations,190.0922121,2710709.237,28689040.54
-Mineral Extraction,Phosphatic fertilizer manufacturing,1807.713527,247319784.9,2043892757
-Research,Environmental and other technical consulting services,5381.569599,371375477,697218345.1
-Shipbuilding,Ship building and repairing,846.5849815,64270089.5,223116087.2
-Shipbuilding,Boat building,1355.867267,88661447.28,415856136
-Tourism & Recreation,"Museums, historical sites, zoos, and parks",1083.618352,46268194.55,94859985.87
-Tourism & Recreation,Amusement parks and arcades,2639.455062,49209231.2,143970645.1
-Tourism & Recreation,Other amusement and recreation industries,7342.828149,212779009.5,407719696.9
-Tourism & Recreation,"Hotels and motels, including casino hotels",9396.307203,327612966.2,1124949067
-Tourism & Recreation,Full-service restaurants,17278.23985,490309488.4,1255812830
+Sector,Attribute,Type of Contribution,Direct Industry Breakdown,Employment,Personal Income,Output
+Defense,Direct Industry Breakdown,Direct,"Employment and payroll of federal govt, military",12622.21764,1175632253,1551383790
+Living Resources,Direct Industry Breakdown,Direct,Vegetable and melon farming,2679.832118,58959574.69,312345224.4
+Living Resources,Direct Industry Breakdown,Direct,Fruit farming,3955.510514,63302188.98,304949316.8
+Living Resources,Direct Industry Breakdown,Direct,Canned fruits and vegetables manufacturing,898.5643555,89962955.1,552712381.8
+Living Resources,Direct Industry Breakdown,Direct,"Greenhouse, nursery, and floriculture production",2246.793899,69398154.11,208011670.2
+Living Resources,Direct Industry Breakdown,Direct,Grain farming,1.970029293,45617.21522,434177.8195
+Living Resources,Direct Industry Breakdown,Direct,Tree nut farming,1.681117208,40237.0816,138834.6425
+Living Resources,Direct Industry Breakdown,Direct,All other crop farming,542.7600489,3208304.703,5647089.6
+Living Resources,Direct Industry Breakdown,Direct,Beef cattle ranching and farming,215.8343443,629728.6327,35763604.93
+Living Resources,Direct Industry Breakdown,Direct,Dairy cattle and milk production,67.31347521,1508584.444,35628124.73
+Living Resources,Direct Industry Breakdown,Direct,Poultry and egg production,33.46503391,1504247.237,11173853.25
+Living Resources,Direct Industry Breakdown,Direct,"Animal production, except cattle and poultry and eggs",231.3214466,3663098.373,33895529.72
+Living Resources,Direct Industry Breakdown,Direct,"Forestry, forest products, and timber tract production",94.9818366,5702829.706,9113351.442
+Living Resources,Direct Industry Breakdown,Direct,Commercial logging,94.51650678,5597009.801,10857494.44
+Living Resources,Direct Industry Breakdown,Direct,Commercial fishing,234.2970015,2817375.979,44943156.09
+Living Resources,Direct Industry Breakdown,Direct,Commercial hunting and trapping,12.31292172,354596.5361,8373601.266
+Living Resources,Direct Industry Breakdown,Direct,Support activities for agriculture and forestry,7218.783104,167486381.5,239700844.1
+Living Resources,Direct Industry Breakdown,Direct,Seafood product preparation and packaging,688.735779,31933230.77,285102868.4
+Marine Construction,Direct Industry Breakdown,Direct,Construction of other new nonresidential structures,8434.643452,396285657.1,1378588606
+Marine Construction,Direct Industry Breakdown,Direct,Maintenance and repair of nonresidential structures,8587.10415,402079265.4,2072080377
+Marine Construction,Direct Industry Breakdown,Direct,"Maintenance and repair of roads, bridges, and tunnels",1503.12152,72782003.16,367307627.9
+Marine Construction,Direct Industry Breakdown,Direct,"Architectural, engineering, and related services",20955.30306,1649894438,3611892028
+Marine Construction,Direct Industry Breakdown,Direct,Landscape and horticultural services,13649.66148,454063602.3,1142736400
+Marine Transportation,Direct Industry Breakdown,Direct,Water transportation,524.4441362,31177638,357356513.5
+Marine Transportation,Direct Industry Breakdown,Direct,Pipeline transportation,206.0722275,20471455.27,84248046.63
+Marine Transportation,Direct Industry Breakdown,Direct,Scenic and sightseeing transportation,9229.243022,444183187.8,1396605542
+Mineral Extraction,Direct Industry Breakdown,Direct,Fertilizer mixing,226.6265905,28345600.57,171153766.4
+Mineral Extraction,Direct Industry Breakdown,Direct,Stone mining and quarrying,150.0699282,3533574.657,55062706.81
+Mineral Extraction,Direct Industry Breakdown,Direct,Sand and gravel mining,129.300088,9691383.784,49753143.78
+Mineral Extraction,Direct Industry Breakdown,Direct,Uranium-radium-vanadium ore mining,45.83146536,3194750.84,24406196.52
+Mineral Extraction,Direct Industry Breakdown,Direct,Other nonmetallic minerals,15.58147826,1180924.242,6401103.881
+Mineral Extraction,Direct Industry Breakdown,Direct,Support activities for oil and gas operations,190.0922121,2710709.237,28689040.54
+Mineral Extraction,Direct Industry Breakdown,Direct,Phosphatic fertilizer manufacturing,1807.713527,247319784.9,2043892757
+Research,Direct Industry Breakdown,Direct,Environmental and other technical consulting services,5381.569599,371375477,697218345.1
+Shipbuilding,Direct Industry Breakdown,Direct,Ship building and repairing,846.5849815,64270089.5,223116087.2
+Shipbuilding,Direct Industry Breakdown,Direct,Boat building,1355.867267,88661447.28,415856136
+Tourism & Recreation,Direct Industry Breakdown,Direct,"Museums, historical sites, zoos, and parks",1083.618352,46268194.55,94859985.87
+Tourism & Recreation,Direct Industry Breakdown,Direct,Amusement parks and arcades,2639.455062,49209231.2,143970645.1
+Tourism & Recreation,Direct Industry Breakdown,Direct,Other amusement and recreation industries,7342.828149,212779009.5,407719696.9
+Tourism & Recreation,Direct Industry Breakdown,Direct,"Hotels and motels, including casino hotels",9396.307203,327612966.2,1124949067
+Tourism & Recreation,Direct Industry Breakdown,Direct,Full-service restaurants,17278.23985,490309488.4,1255812830
+Defense,Type of Contribution,Direct,All,12622.21764,1175632253,1551383790
+Defense,Type of Contribution,Indirect,All,,,
+Defense,Type of Contribution,Induced,All,3781.149952,182772339.1,644905919.1
+Living Resources,Type of Contribution,Direct,All,19218.80112,506115378.3,2098815889
+Living Resources,Type of Contribution,Indirect,All,2105.687481,126716556.4,473641056.9
+Living Resources,Type of Contribution,Induced,All,2155.200438,104174874,367450094.6
+Marine Construction,Type of Contribution,Direct,All,53129.83366,2975104966,8572605038
+Marine Construction,Type of Contribution,Indirect,All,15617.97537,843348591.6,2796680586
+Marine Construction,Type of Contribution,Induced,All,14024.15517,677855423.9,2389860045
+Marine Transportation,Type of Contribution,Direct,All,9959.759386,495832281.1,1838210102
+Marine Transportation,Type of Contribution,Indirect,All,4006.695768,192404948.6,594565085.6
+Marine Transportation,Type of Contribution,Induced,All,2959.349187,143032758.2,503951439.5
+Mineral Extraction,Type of Contribution,Direct,All,2565.21529,295976728.2,2379358715
+Mineral Extraction,Type of Contribution,Indirect,All,3047.211749,190829654.4,708750398.1
+Mineral Extraction,Type of Contribution,Induced,All,1689.720822,81673505.43,288001729.9
+Research,Type of Contribution,Direct,All,5381.569599,371375477,697218345.1
+Research,Type of Contribution,Indirect,All,1414.102883,72649197.54,207725869.2
+Research,Type of Contribution,Induced,All,1608.430018,77743421.41,274102983.2
+Ship and Boat Building,Type of Contribution,Direct,All,2202.452249,152931536.8,638972223.2
+Ship and Boat Building,Type of Contribution,Indirect,All,1141.183621,69476350.39,234488734.9
+Ship and Boat Building,Type of Contribution,Induced,All,734.0391674,35481143.01,125162547.8
+Tourism and Recreation,Type of Contribution,Direct,All,37740.44861,1126178890,3027312225
+Tourism and Recreation,Type of Contribution,Indirect,All,5367.160403,285369659.9,949476097.4
+Tourism and Recreation,Type of Contribution,Induced,All,4596.012633,222158644.5,783768955.2
