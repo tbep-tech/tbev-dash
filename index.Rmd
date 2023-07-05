@@ -25,6 +25,22 @@ library(leafpop)
 library(gridExtra)
 library(leafsync)
 
+load(file = "data/shoreline.RData")
+load(file = "data/watershed.RData")
+load(file = "data/habitats.RData")
+load(file = "data/wetlands.RData")
+load(file = "data/mangroves.RData")
+load(file = "data/parcels.RData")
+
+EI_sector <- read.csv("data/EI_sector.csv")
+EI_industry <- read.csv("data/EI_industry.csv")
+EI_contribution <- read.csv("data/EI_contribution.csv")
+PV_values <- read.csv("data/PV_values.csv")
+ES_carbon <- read.csv("data/ES_carbon.csv")
+ES_denitrification <- read.csv("data/ES_denitrification.csv")
+ES_flood <- read.csv("data/ES_flood.csv")
+
+
 downloadButtonRmd <- function (outputId, label = "Download", class = NULL, ...)  {
   tags$a(id = outputId, class = paste("btn btn-default shiny-download-link", 
                                       class), href = "", target = "_blank", download = NA, 
@@ -38,11 +54,9 @@ tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#35
 
 ```{r reactives}
 allsectors_pie <- reactive({
-  
   # inputs
   impact_selection <- input$impact_selection
   contribution_selection <- input$contribution_selection
-
   # filter and format input data
   mydata <- EI_sector %>% 
     filter(Contribution %in% contribution_selection) %>% 
@@ -50,10 +64,7 @@ allsectors_pie <- reactive({
     mutate(
       lab = case_when(
         impact_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
-        T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))
-        )
-    )
-  
+        T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))))
   # make the pie chart
   out <- mydata %>% 
     plot_ly(width = 800, height = 350,
@@ -73,10 +84,64 @@ allsectors_pie <- reactive({
       orientation = "v"),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
-  
   return(out)
-  
 }) 
+
+Defense_pie <- reactive({
+  # inputs
+  impact_selection <- input$impact_selection
+  attribute_selection <- input$attribute_selection
+  # filter and format input data
+  mydata <- EI_industry %>% 
+    filter(Sector == "Defense") %>% 
+    filter(Attribute %in% attribute_selection) %>% 
+    rename(imp = !!impact_selection) %>% 
+    rename(att = !!attribute_selection) %>% 
+    mutate(
+      lab = case_when(
+        impact_selection == 'Employment' ~ paste(prettyNum(round(imp, digits = 0), big.mark = ","), "jobs"), 
+        T ~ paste("$", prettyNum(round(imp, digits = 0), big.mark = ","))))
+  # make the pie chart
+  out <- mydata %>% 
+    plot_ly(width = 800, height = 350,
+    labels = ~att,
+    values = ~imp,
+    type = "pie",
+    sort = FALSE,
+    direction = "clockwise",
+    marker = list(colors = tbepcols10),
+    textinfo = "percent",
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = "text",
+    text = ~lab) %>%
+  layout(
+    legend = list(
+      title = list(text = "<b>Sectors</b>", side = "top"),
+      orientation = "v"),
+    hoverlabel = list(
+      font = list(family = "Arial", size = 16, color = "white")))
+  return(out)
+}) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 habitat_map <- reactive({
   
@@ -88,8 +153,8 @@ habitat_map <- reactive({
     filter(Habitat %in% habitat_selection)
 
   cols <- c("#004F7E","#9C974A","#962D14","#5C4A42","#78B7C5","#00806E","#F2AD00")
-  names(cols) <- c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", 
-                 "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses")
+  names(cols) <- c("Freshwater Wetlands","Mangrove Forests", "Oyster Bars", "Pine Flatwoods",   
+                 "Salt Marshes", "Seagrasses","Shrub and Brushland")
   color_selection <- cols[[habitat_selection]]
 
   # make the map
@@ -279,12 +344,6 @@ Column {.tabset .tabset-fade data-width=650}
 
 #### Economic Impacts of Industry Sectors
 
-```{r}
-EI_sector <- read.csv("data/EI_sector.csv")
-EI_industry <- read.csv("data/EI_industry.csv")
-EI_contribution <- read.csv("data/EI_contribution.csv")
-```
-
 
 ### All Sectors
 
@@ -301,44 +360,23 @@ mainPanel(
 ```{r}
 output$allsectors_pie <- renderPlotly(allsectors_pie())
 plotlyOutput("allsectors_pie")
-
 ```
 
 ### Defense
 
 ```{r}
 mainPanel(
-  column(5,
-         selectInput('yrselseas', 'Select economic impact:', selected = "Output", choices = list("Output", "Employment","Income"))),
-  column(7,
-         selectInput('yrselseas', 'Select attribute:', selected = "Total", choices = c("Direct Industry Breakdown", "Type of Contribution"))))
+  column(6,
+         selectInput('impact_selection', 'Select economic impact:', selected = "Output", choices = list("Output" = "Output", "Employment" = "Employment","Income" = "Personal.Income"))),
+  column(6,
+         selectInput('attribute_selection', 'Select attribute:', selected = "Direct Industry Breakdown", choices = c("Direct Industry Breakdown" = "Direct.Industry.Breakdown", "Type of Contribution" = "Type.of.Contribution"))))
 ```
 <br>
 <br>
 
 ```{r}
-Defense_OutputIndustry <- EI_industry %>%
-  filter(Sector == "Defense") %>%
-  plot_ly(
-    width = 800,
-    height = 350,
-    labels = ~Industry,
-    values = ~Output,
-    type = "pie",
-    sort = FALSE,
-    direction = "clockwise",
-    marker = list(colors = tbepcols10),
-    textinfo = "percent",
-    insidetextfont = list(color = '#FFFFFF'),
-    hoverinfo = "text",
-    text = ~paste("$", round(Output/1000000000, digits = 2), "billion")) %>%
-  layout(
-    legend = list(
-      title = list(text = "<b>Industries</b>", side = "top"),
-      orientation = "v"),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-Defense_OutputIndustry
+output$Defense_pie <- renderPlotly(Defense_pie())
+plotlyOutput("Defense_pie")
 ```
 
 ### Living Resources
@@ -360,7 +398,7 @@ Living.Resources_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -398,7 +436,7 @@ Marine.Construction_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -436,7 +474,7 @@ Marine.Transportation_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -474,7 +512,7 @@ Mineral.Extraction_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -511,7 +549,7 @@ Research_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -549,7 +587,7 @@ Ship.and.Boat.Building_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -587,7 +625,7 @@ Tourism.and.Recreation_OutputIndustry <- EI_industry %>%
   plot_ly(
     width = 800,
     height = 350,
-    labels = ~Industry,
+    labels = ~Direct.Industry.Breakdown,
     values = ~Output,
     type = "pie",
     sort = FALSE,
@@ -656,8 +694,6 @@ Column {.tabset .tabset-fade data-width=650}
 ### Area of Benefit (DONE)
 
 ```{r}
-load(file = "data/shoreline.RData")
-load(file = "data/watershed.RData")
 
 #mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
 #  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
@@ -667,7 +703,6 @@ load(file = "data/watershed.RData")
 
 <br>
 ```{r}
-PV_values <- read.csv("data/PV_values.csv")
 
 PropertyValues1 <- PV_values %>%
   plot_ly(
@@ -787,14 +822,11 @@ Column {.tabset .tabset-fade data-width=650}
 ### Summary (FIX)
 
 ```{r}
-load(file = "data/habitats.RData")
-load(file = "data/watershed.RData")
-
 output$habitat_map <- renderLeaflet(habitat_map())
 
 fillCol(flex = c(NA, 1),
         column(6,
-               selectInput('habitat_selection', 'Select habitat:', selected = "Oyster Bars", choices = c("Shrub and Brushland", "Pine Flatwoods", "Freshwater Wetlands", "Mangrove Forests", "Salt Marshes", "Oyster Bars", "Seagrasses"))),
+               selectInput('habitat_selection', 'Select habitat:', selected = "Salt Marshes", choices = c("Freshwater Wetlands","Mangrove Forests", "Oyster Bars", "Pine Flatwoods", "Salt Marshes", "Seagrasses","Shrub and Brushland"))),
         leafletOutput('habitat_map')
 )
 
@@ -825,8 +857,6 @@ mainPanel(
 
 ```{r}
 # SCALE: Per-acre | FLOW: Sequestration
-
-ES_carbon <- read.csv("data/ES_carbon.csv")
 
 CarbonSeq_PerAcre1 <- ES_carbon %>%
   plot_ly(
@@ -1028,8 +1058,6 @@ mainPanel(
 ```{r}
 # SCALE: Per-acre
 
-ES_denitrification <- read.csv("data/ES_denitrification.csv")
-
 Denitrification_PerAcre1 <- ES_denitrification %>%
   plot_ly(
     width = 900,
@@ -1125,7 +1153,6 @@ Denitrification_Total <- subplot(Denitrification_Total1, Denitrification_Total2,
 
 <br>
 ```{r}
-ES_flood <- read.csv("data/ES_flood.csv")
 
 Flood_Parcels <- ES_flood %>%
   plot_ly(
@@ -1374,9 +1401,6 @@ To value the flood protection services of wetland habitats in the Tampa Bay estu
 <br>
 <b>Map of habitats and protected properties in the watershed.</b>
 ```{r}
-load(file = "data/wetlands.RData")
-load(file = "data/mangroves.RData")
-load(file = "data/parcels.RData")
 
 parcelmap <- parcels %>%
   filter(FloodZone != "No intersect project Flood Zones") %>%
