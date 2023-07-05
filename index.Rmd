@@ -18,6 +18,7 @@ library(shiny)
 library(dplyr)
 library(sf)
 library(mapview)
+library(leaflet)
 library(RColorBrewer)
 library(plotly)
 library(leafpop)
@@ -81,7 +82,6 @@ habitat_map <- reactive({
   
   # inputs
   habitat_selection <- input$habitat_selection
-  brower()
 
   # filter and format input data
   mydata <- habitats %>% 
@@ -97,11 +97,12 @@ habitat_map <- reactive({
     select(Habitat, Area, Sequestration, Denitrification) %>% 
     mapview(zcol = "Habitat", 
             col.regions = color_selection, 
-            alpha.regions = 1.0, 
+            alpha.regions = 1.0,
             lwd = 0, 
             layer.name = "Habitat", 
             popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), 
-                               feature.id = FALSE, row.numbers = FALSE))
+                               feature.id = FALSE, row.numbers = FALSE)) %>% 
+    .@map
   
   return(out)
 })
@@ -799,9 +800,8 @@ mainPanel(
 
 ```{r}
 #map1 <- mapview(watershed, zcol = "Name", color = "black", lwd = 2, legend = FALSE, popup = FALSE)
-
-output$habitat_map <- renderMapview(habitat_map())
-mapviewOutput("habitat_map")
+output$habitat_map <- renderLeaflet(habitat_map())
+leafletOutput("habitat_map")
 
 #map1 + map2
 
