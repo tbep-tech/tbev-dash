@@ -1,6 +1,11 @@
-Habitat,Per-acre Denitrification (kg N/ac/yr),Per-acre Denitrification Value ($/ac),Area (ac),Total Denitrification (kg N/yr),Total Denitrification Value ($)
-Mangrove Forests,4.05,396.4355454,15584.37,63116.71417,6178199.754
-Salt Marshes,16.19,1584.763328,4591.19,74331.40578,7275953.429
-Oyster Bars,32.29,3160.716978,189.96,6133.818087,600410.7453
-Seagrasses,36.44,3566.941055,34018,1239615.92,121340200.8
-Freshwater Wetlands,26.77,2620.390012,221004.4021,5916287.845,579117728
+Habitat,Scale,Quantity,Value,LabelQ,LabelV
+Mangrove Forests,Per acre,4.05,396.4355454,4.05 kg N per acre annually,$396 per acre annually
+Salt Marshes,Per acre,16.19,1584.763328,16.19 kg N per acre annually,"$1,585 per acre annually"
+Oyster Bars,Per acre,32.29,3160.716978,32.29 kg N per acre annually,"$3,161 per acre annually"
+Seagrasses,Per acre,36.44,3566.941055,36.44 kg N per acre annually,"$3,567 per acre annually"
+Freshwater Wetlands,Per acre,26.77,2620.390012,26.77 kg N per acre annually,"$2,620 per acre annually"
+Mangrove Forests,Total in Tampa Bay,63116.71417,6178199.754,"63,117 kg N annually","$6,178,200 annually"
+Salt Marshes,Total in Tampa Bay,74331.40578,7275953.429,"74,331 kg N annually","$7,275,953 annually"
+Oyster Bars,Total in Tampa Bay,6133.818087,600410.7453,"6,134 kg N annually","$600,411 annually"
+Seagrasses,Total in Tampa Bay,1239615.92,121340200.8,"1,239,616 kg N annually","$121,340,201 annually"
+Freshwater Wetlands,Total in Tampa Bay,5916287.845,579117728,"5,916,288 kg N annually","$579,117,728 annually"
