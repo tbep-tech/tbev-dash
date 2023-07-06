@@ -1,7 +1,25 @@
-Habitat,Per-acre Sequestration (tonnes CO2/ac/yr),Per-acre Sequestration Value ($/ac),Per-acre Stock (tonnes CO2/ac),Per-acre Stock Value ($/ac),Area (ac),Total Sequestration (tonnes CO2/yr),Total Sequestration Value ($),Total Stock (tonnes CO2),Total Stock Value ($)
-Mangrove Forests,2.23,195.3824363,304.2,26702.78731,15584.37,34688.00335,3044912.934,4740786.293,416146220.8
-Salt Marshes,2.37,208.407932,107.71,9455.207365,4591.19,10900.44343,956840.9241,494539.4928,43410676.68
-Pine Flatwoods,0.33,28.65609065,248.55,21817.70538,26990.25,8811.061145,773434.9473,6708421.553,588865244
-Seagrasses,0.95,83.3631728,163.52,14354.09632,34018,32306.31593,2835848.412,5562743.774,488297648.5
-Freshwater Wetlands,2.23,195.3824363,172.09,15105.66742,221004.4021,491915.9092,43180378.51,38031658.66,3338418997
-Shrub and Brushland,0.36,31.2611898,108.25,9502.09915,48007.076,17096.81367,1500758.304,5196718.988,456167992.8
+Habitat,Scale,Flow,Quantity,Value,LabelQ,LabelV
+Mangrove Forests,Per acre,Sequestration,2.23,195.3824363,2.23 tonnes CO2 per acre annually,$195 per acre annually
+Salt Marshes,Per acre,Sequestration,2.37,208.407932,2.37 tonnes CO2 per acre annually,$208 per acre annually
+Pine Flatwoods,Per acre,Sequestration,0.33,28.65609065,0.33 tonnes CO2 per acre annually,$29 per acre annually
+Seagrasses,Per acre,Sequestration,0.95,83.3631728,0.95 tonnes CO2 per acre annually,$83 per acre annually
+Freshwater Wetlands,Per acre,Sequestration,2.23,195.3824363,2.23 tonnes CO2 per acre annually,$195 per acre annually
+Shrub and Brushland,Per acre,Sequestration,0.36,31.2611898,0.36 tonnes CO2 per acre annually,$31 per acre annually
+Mangrove Forests,Per acre,Current Stock,304.2,26702.78731,304 tonnes CO2 per acre annually,"$26,703 per acre annually"
+Salt Marshes,Per acre,Current Stock,107.71,9455.207365,108 tonnes CO2 per acre annually,"$9,455 per acre annually"
+Pine Flatwoods,Per acre,Current Stock,248.55,21817.70538,249 tonnes CO2 per acre annually,"$21,818 per acre annually"
+Seagrasses,Per acre,Current Stock,163.52,14354.09632,164 tonnes CO2 per acre annually,"$14,354 per acre annually"
+Freshwater Wetlands,Per acre,Current Stock,172.09,15105.66742,172 tonnes CO2 per acre annually,"$15,106 per acre annually"
+Shrub and Brushland,Per acre,Current Stock,108.25,9502.09915,108 tonnes CO2 per acre annually,"$9,502 per acre annually"
+Mangrove Forests,Total in Tampa Bay,Sequestration,34688.00335,3044912.934,"34,688 tonnes CO2 annually","$3,044,913 annually"
+Salt Marshes,Total in Tampa Bay,Sequestration,10900.44343,956840.9241,"10,900 tonnes CO2 annually","$956,841 annually"
+Pine Flatwoods,Total in Tampa Bay,Sequestration,8811.061145,773434.9473,"8,811 tonnes CO2 annually","$773,435 annually"
+Seagrasses,Total in Tampa Bay,Sequestration,32306.31593,2835848.412,"32,306 tonnes CO2 annually","$2,835,848 annually"
+Freshwater Wetlands,Total in Tampa Bay,Sequestration,491915.9092,43180378.51,"491,916 tonnes CO2 annually","$43,180,379 annually"
+Shrub and Brushland,Total in Tampa Bay,Sequestration,17096.81367,1500758.304,"17,097 tonnes CO2 annually","$1,500,758 annually"
+Mangrove Forests,Total in Tampa Bay,Current Stock,4740786.293,416146220.8,"4,740,786 tonnes CO2 annually","$416,146,221 annually"
+Salt Marshes,Total in Tampa Bay,Current Stock,494539.4928,43410676.68,"494,539 tonnes CO2 annually","$43,410,677 annually"
+Pine Flatwoods,Total in Tampa Bay,Current Stock,6708421.553,588865244,"6,708,422 tonnes CO2 annually","$588,865,244 annually"
+Seagrasses,Total in Tampa Bay,Current Stock,5562743.774,488297648.5,"5,562,744 tonnes CO2 annually","$488,297,649 annually"
+Freshwater Wetlands,Total in Tampa Bay,Current Stock,38031658.66,3338418997,"38,031,659 tonnes CO2 annually","$3,338,418,997 annually"
+Shrub and Brushland,Total in Tampa Bay,Current Stock,5196718.988,456167992.8,"5,196,719 tonnes CO2 annually","$456,167,993 annually"
