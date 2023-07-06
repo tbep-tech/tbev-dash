@@ -37,7 +37,6 @@ EI_industry <- read.csv("data/EI_industry.csv")
 EI_contribution <- read.csv("data/EI_contribution.csv")
 PV_values <- read.csv("data/PV_values.csv")
 ES_carbon <- read.csv("data/ES_carbon.csv")
-ES_carbon2 <- read.csv("data/ES_carbon2.csv")
 ES_denitrification <- read.csv("data/ES_denitrification.csv")
 ES_flood <- read.csv("data/ES_flood.csv")
 
@@ -145,7 +144,7 @@ carbon_bar <- reactive({
   scale_c_selection <- input$scale_c_selection
   flow_selection <- input$flow_selection
   # filter and format input data
-  mydata <- ES_carbon2 %>% 
+  mydata <- ES_carbon %>% 
     filter(Scale %in% scale_c_selection & Flow %in% flow_selection) 
   # make the bar charts
   CarbonQuantity <- mydata %>%
@@ -189,15 +188,14 @@ carbon_bar <- reactive({
 }) 
 
 
-carbon_bar <- reactive({
+nitrogen_bar <- reactive({
   # inputs
-  scale_c_selection <- input$scale_c_selection
-  flow_selection <- input$flow_selection
+  scale_n_selection <- input$scale_n_selection
   # filter and format input data
-  mydata <- ES_carbon2 %>% 
-    filter(Scale %in% scale_c_selection & Flow %in% flow_selection) 
+  mydata <- ES_denitrification %>% 
+    filter(Scale %in% scale_n_selection) 
   # make the bar charts
-  CarbonQuantity <- mydata %>%
+  NitrogenQuantity <- mydata %>%
     plot_ly(
     width = 900,
     height = 325,
@@ -205,16 +203,16 @@ carbon_bar <- reactive({
     x = ~Quantity,
     type = "bar",
     orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
     textposition = "none",
     hoverinfo = "text",
     text = ~LabelQ) %>%
   layout(
-    xaxis = list(title = "Quantity (tonnes CO2/yr)"),
+    xaxis = list(title = "Quantity (kg N/yr)"),
     yaxis = list(title = ""),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
-  CarbonValue <- mydata %>%
+  NitrogenValue <- mydata %>%
     plot_ly(
     width = 900,
     height = 325,
@@ -222,17 +220,17 @@ carbon_bar <- reactive({
     x = ~Value,
     type = "bar",
     orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#5C4A42","#00806E","#004F7E","#F2AD00")),
+    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
     textposition = "none",
     hoverinfo = "text",
     text = ~LabelV) %>%
   layout(
-    xaxis = list(title = "Value ($/yr)"),
+    xaxis = list(title = "Denitrification Value ($/yr)"),
     yaxis = list(title = ""),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
   
-  out <- subplot(CarbonQuantity, CarbonValue, nrows = 1, titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
+  out <- subplot(NitrogenQuantity, NitrogenValue, nrows = 1, titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
     layout(showlegend = FALSE)
   return(out)
 }) 
@@ -454,7 +452,7 @@ Column {.tabset .tabset-fade data-width=650}
 #### Economic Impacts of Industry Sectors
 
 
-### All Sectors (DONE)
+### All Sectors 
 
 ```{r}
 mainPanel(
@@ -471,7 +469,7 @@ output$allsectors_pie <- renderPlotly(allsectors_pie())
 plotlyOutput("allsectors_pie")
 ```
 
-### Individual Sectors (DONE)
+### Individual Sectors 
 
 ```{r}
 column(12,
@@ -538,14 +536,14 @@ Column {.tabset .tabset-fade data-width=650}
 
 #### Property Value Amenity Impacts
 
-### Area of Benefit (DONE)
+### Area of Benefit 
 
 ```{r}
 mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
   mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
 ```
 
-### Property Benefits (DONE)
+### Property Benefits 
 
 <br>
 ```{r}
@@ -688,15 +686,15 @@ fillCol(flex = c(NA, 1),
 
 
 
-### Carbon Sequestration (READY)
+### Carbon Sequestration 
 
 
 ```{r}
 mainPanel(
   column(6,
-         selectInput('flow_selection', 'Select flow:', selected = "Sequestration", choices = unique(ES_carbon2$Flow))),
+         selectInput('flow_selection', 'Select flow:', selected = "Sequestration", choices = unique(ES_carbon$Flow))),
   column(6,
-         selectInput('scale_c_selection', 'Select scale:', selected = "Per acre", choices = unique(ES_carbon2$Scale))))
+         selectInput('scale_c_selection', 'Select scale:', selected = "Per acre", choices = unique(ES_carbon$Scale))))
 ```
 <br>
 <br>
@@ -708,119 +706,25 @@ plotlyOutput("carbon_bar")
 ```
 
 
-
-
-### Denitrification (READY)
+### Denitrification 
 
 
 ```{r}
 mainPanel(
   column(6,
-         selectInput('yrselseas', 'Select scale:', selected = "Per Acre", choices = c("Per Acre", "Total in Tampa Bay"))))
+         selectInput('scale_n_selection', 'Select scale:', selected = "Per acre", choices = unique(ES_denitrification$Scale))))
 ```
 <br>
 <br>
 <br>
 
 ```{r}
-# SCALE: Per-acre
-
-Denitrification_PerAcre1 <- ES_denitrification %>%
-  plot_ly(
-    width = 900,
-    height = 325,
-    y = ~Habitat,
-    x = ~Per.acre.Denitrification..kg.N.ac.yr.,
-    type = "bar",
-    orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
-    textposition = "none",
-    hoverinfo = "text",
-    text = ~paste(Per.acre.Denitrification..kg.N.ac.yr., "kg N per acre annually")) %>%
-  layout(
-    xaxis = list(title = "kg N/ac/yr"),
-    yaxis = list(title = ""),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-
-Denitrification_PerAcre2 <- ES_denitrification %>%
-  plot_ly(
-    width = 900,
-    height = 325,
-    y = ~Habitat,
-    x = ~Per.acre.Denitrification.Value....ac.,
-    type = "bar",
-    orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
-    textposition = "none",
-    hoverinfo = "text",
-    text = ~paste("$", prettyNum(round(Per.acre.Denitrification.Value....ac., digits = 0), big.mark = ","), "per acre annually")) %>%
-  layout(
-    xaxis = list(title = "$/ac/yr"),
-    yaxis = list(title = ""),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-
-Denitrification_PerAcre <- subplot(Denitrification_PerAcre1, Denitrification_PerAcre2, nrows = 1,
-                             titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
-  layout(showlegend = FALSE,
-         annotations = list(
-           list(x = 0.09, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
-           list(x = 0.96, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
-Denitrification_PerAcre
+output$nitrogen_bar <- renderPlotly(nitrogen_bar())
+plotlyOutput("nitrogen_bar")
 ```
 
 
-```{r}
-# SCALE: Total
-
-Denitrification_Total1 <- ES_denitrification %>%
-  plot_ly(
-    width = 900,
-    height = 325,
-    y = ~Habitat,
-    x = ~Total.Denitrification..kg.N.yr.,
-    type = "bar",
-    orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
-    textposition = "none",
-    hoverinfo = "text",
-    text = ~paste(prettyNum(round(Total.Denitrification..kg.N.yr., digits = 0), big.mark = ","), "kg N annually")) %>%
-  layout(
-    xaxis = list(title = "kg N/yr"),
-    yaxis = list(title = ""),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-
-Denitrification_Total2 <- ES_denitrification %>%
-  plot_ly(
-    width = 900,
-    height = 325,
-    y = ~Habitat,
-    x = ~Total.Denitrification.Value....,
-    type = "bar",
-    orientation = "h",
-    marker = list(color = c("#9C974A","#78B7C5","#962D14","#00806E","#004F7E")),
-    textposition = "none",
-    hoverinfo = "text",
-    text = ~paste("$",prettyNum(round(Total.Denitrification.Value...., digits = 0), big.mark = ","), "annually")) %>%
-  layout(
-    xaxis = list(title = "$/yr"),
-    yaxis = list(title = ""),
-    hoverlabel = list(
-      font = list(family = "Arial", size = 16, color = "white")))
-
-Denitrification_Total <- subplot(Denitrification_Total1, Denitrification_Total2, nrows = 1,
-                                   titleX = TRUE, titleY = FALSE, margin = 0.09) %>%
-  layout(showlegend = FALSE,
-         annotations = list(
-           list(x = 0.09, y = 1.1, text = "Denitrification Rate", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
-           list(x = 0.96, y = 1.1, text = "Value of Denitrification Services", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
-#Denitrification_Total
-```
-
-
-### Flood Protection (DONE)
+### Flood Protection 
 
 <br>
 ```{r}
