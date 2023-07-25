@@ -21,6 +21,7 @@ library(mapview)
 library(leaflet)
 library(RColorBrewer)
 library(plotly)
+library(leafpop)
 
 load(file = "data/shoreline.RData")
 load(file = "data/watershed.RData")
