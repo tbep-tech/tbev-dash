@@ -144,8 +144,17 @@ carbon_bar <- reactive({
   scale_c_selection <- input$scale_c_selection
   flow_selection <- input$flow_selection
   # filter and format input data
-  mydata <- ES_carbon %>% 
-    filter(Scale %in% scale_c_selection & Flow %in% flow_selection) 
+    mydata <- ES_carbon %>% 
+      filter(Scale %in% scale_c_selection & Flow %in% flow_selection) 
+  if(flow_selection == "Sequestration"){
+      axistitleQ <- list(title = "Quantity (tonnes CO2/yr)")
+      axistitleV <- list(title = "Value ($/yr)")
+}
+  if(flow_selection == "Current Stock"){
+      axistitleQ <- list(title = "Quantity (tonnes CO2)")
+      axistitleV <- list(title = "Value ($)")
+}
+
   # make the bar charts
   CarbonQuantity <- mydata %>%
     plot_ly(
@@ -160,7 +169,7 @@ carbon_bar <- reactive({
     hoverinfo = "text",
     text = ~LabelQ) %>%
   layout(
-    xaxis = list(title = "Quantity (tonnes CO2/yr)"),
+    xaxis = axistitleQ,
     yaxis = list(title = ""),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
@@ -177,7 +186,7 @@ carbon_bar <- reactive({
     hoverinfo = "text",
     text = ~LabelV) %>%
   layout(
-    xaxis = list(title = "Value ($/yr)"),
+    xaxis = axistitleV,
     yaxis = list(title = ""),
     hoverlabel = list(
       font = list(family = "Arial", size = 16, color = "white")))
@@ -240,16 +249,6 @@ nitrogen_bar <- reactive({
 
 
 
-
-
-
-
-
-
-
-
-
-
 habitat_map <- reactive({
   
   # inputs
@@ -272,7 +271,7 @@ habitat_map <- reactive({
             alpha.regions = 1.0,
             lwd = 0, 
             layer.name = "Habitat", 
-            popup = popupTable(habitats, zcol = c("Habitat","Area","Sequestration","Denitrification"), 
+            popup = popupTable(mydata, zcol = c("Habitat","Area","Sequestration","Denitrification"), 
                                feature.id = FALSE, row.numbers = FALSE)) %>% 
     .@map
   
@@ -344,9 +343,18 @@ Explore the methods and results of the study through the different pages of this
 1) [__Property Value Amenity Impacts__](#property-value-amenity-impacts). This page examines the effects of bay proximity on property value premiums for single-family homes within a quarter mile of the water. 
 1) [__Ecosystem Services__](#ecosystem-services). This page highlights the value of ecosystem services (carbon sequestration, denitrification, and flood protection) provided by habitats across Tampa Bay, such as mangrove forests, saltwater marshes, and freshwater wetlands. 
 
-Methodological summaries for each of these three analyses can be found in the Methods pages. For more detailed information regarding data sources, calculations, modelling, and results, consult the full 2023 Economic Valuation of Tampa Bay report, which can be downloaded using the link on the right side of this page.
+Methodological summaries for each of these three analyses can be found in the Methods pages. For more detailed information regarding data sources, calculations, modeling, and results, consult the full 2023 Economic Valuation of Tampa Bay report, which can be downloaded using the link on the right side of this page.
 <br>
  
+```{r, fig.align='center', out.width='5%'}
+knitr::include_graphics('img/spacer.PNG')
+```
+
+```{r, fig.align='left', out.width='100%'}
+knitr::include_graphics('img/infographic.PNG')
+```
+
+
 ```{r, fig.align='center', out.width='5%'}
 knitr::include_graphics('img/spacer.PNG')
 ```
@@ -502,17 +510,17 @@ Column {.tabset .tabset-fade data-width=275}
 
 <font size="3">
 
-Proximity to valued amenities, such as waterfront views, generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. For this analysis, hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. It uses statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value.
+Proximity to valued amenities, such as waterfront views, generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. For this analysis, a hedonic pricing method was used to value amenities provided by Tampa Bay to nearby properties. It uses statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value.
 
 This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries (10,484 of which had been sold within the last two years) to estimate the added amenity value afforded by the bay to nearby properties (those within a quarter-mile of the shoreline).
 
-Two measures of property values were considered: <span style="color:#00806E">sale price</span> and <span style="color:#00806E">justified value</span>. In contrast to the sale price, the justified value is the value a property appraiser assigns to a parcel, which offers a more conservative lower bound for impacts on property values given its robustness to changing market conditions.
+Two measures of property values were considered: <span style="color:#00806E">sale price</span> and <span style="color:#00806E">justified value</span>. In contrast to the sale price, the justified value is the value a property appraiser assigns to a parcel, which offers a more conservative lower bound for impacts on property values given its robustness to changing market conditions. Every parcel has a justified value, however only parcels sold within the last two years of data have an included sale price, meaning that the justified value regression includes the entire universe of data while the sale price regressions include only a subset. Additionally, sale prices are not purely reflective of the underlying characteristics of a parcel and its amenities, because they are sensitive to short-term market trends and asset speculation by buyers.
 </font>
 
 <font size="4"><b>Results Summary</b></font>
 
 <font size="3">
-The model with the strongest explanatory power was a regression on the justified value. This model found that for a comparable parcel, being within a quarter-mile of the water added about <span style="color:#00806E">\$52,769</span> to its justified value. Multiplying this added value by the number of single-family parcels within a quarter mile gives a total added value of <span style="color:#00806E">\$3.23 billion</span>.
+The model with the strongest explanatory power was a regression on the justified value. This model found that for a comparable parcel, being within a quarter-mile of the water added about <span style="color:#00806E">\$52,769</span> to its justified value. Multiplying this added value by the number of single-family parcels within a quarter mile gives a total added value of <span style="color:#00806E">\$3.23 billion</span> to the regional economy.
 </font>
 
 
@@ -556,6 +564,7 @@ PropertyValues1 <- PV_values %>%
     y = ~Number.of.properties,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
+    textposition = "none",
     hoverinfo = "text",
     text = ~Properties) %>%
   layout(
@@ -573,6 +582,7 @@ PropertyValues2 <- PV_values %>%
     y = ~Value.added.to.each.nearby.home,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
+    textposition = "none",
     hoverinfo = "text",
     text = ~Value) %>%
   layout(
@@ -590,6 +600,7 @@ PropertyValues3 <- PV_values %>%
     y = ~Added.regional.value..billion.,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
+    textposition = "none",
     hoverinfo = "text",
     text = ~Benefit) %>%
   layout(
@@ -647,11 +658,11 @@ This page summarizes the results of the different ecosystem service valuations f
 
 The <span style="color:#00806E">Summary</span> tab provides a map showing the habitats contributing to carbon sequestration and denitrification services. The map is interactive. Users can click on different habitats to view the total area of the habitat in the watershed and the total valuation of its sequestration and denitrification services per year. Some habitats only contribute to  one of these ecosystem services. 
 
-In the <span style="color:#00806E">Carbon Sequestration</span> tab, select the desired scale (per acre or total for Tampa Bay) and type of carbon flow (sequestration or stock) from the dropdown lists to display graphs of the contributions of each habitat to carbon-related ecosystem services, including the quantity of carbon stored/sequestered and its associated valuation in dollars.
+In the <span style="color:#00806E">Carbon Sequestration</span> tab, select the desired scale (per acre or total for Tampa Bay) and type of carbon flow (sequestration or stock) from the dropdown lists to display graphs of the contributions of each habitat to carbon-related ecosystem services, including the quantity of carbon stored/sequestered and its associated valuation in dollars. Carbon sequestration reflects the annual amount of carbon removed from the atmosphere, whereas stock is the quantity of carbon held in a habitat system at any specified time.
 
 Like the previous tab, select the desired scale in the <span style="color:#00806E">Denitrification</span> tab to compare the denitrification services between habitats in the watershed.
 
-The <span style="color:#00806E">Flood Protection</span> tab provides a comparison of two groups of habitats (mangroves and wetlands) within different counties in the watershed. Graphs display (1) the number of properties protected from flooding, (2) the total value of all properties in a flood zone adjacent to the habitat, and (3) the total flood protection benefits to those properties by different habitats in different counties. The graphs are interactive. Users can hover over the data to view the precise results for a given habitat.
+The <span style="color:#00806E">Flood Protection</span> tab provides a comparison of different habitats within different counties in the watershed. Graphs display (1) the number of properties protected from flooding, (2) the total value of all properties in a flood zone adjacent to the habitat, and (3) the total flood protection benefits to those properties by different habitats in different counties. The graphs are interactive. Users can hover over the data to view the precise results for a given habitat (<span style="color:#004F7E"><b>wetlands</b></span>, <span style="color:#9C974A"><b>mangroves</b></span>, or <span style="color:#000000"><b>both</b></span>).
 
 <i>NOTE: The following habitats are combined to represent estuarine wetlands in the flood protection analysis: oyster bars, seagrasses, and saltwater marshes.</i>
 
@@ -663,14 +674,14 @@ Column {.tabset .tabset-fade data-width=650}
 #### Ecosystem Services
 
 
-### Summary (FIX)
+### Summary
 
 ```{r}
 output$habitat_map <- renderLeaflet(habitat_map())
 
 fillCol(flex = c(NA, 1),
         column(6,
-               selectInput('habitat_selection', 'Select habitat:', selected = "Salt Marshes", choices = c("Freshwater Wetlands","Mangrove Forests", "Oyster Bars", "Pine Flatwoods", "Salt Marshes", "Seagrasses","Shrub and Brushland"))),
+               selectInput('habitat_selection', 'Select habitat:', selected = "Seagrasses", choices = unique(habitats$Habitat))),
         leafletOutput('habitat_map')
 )
 
@@ -803,7 +814,7 @@ FloodProtection <- subplot(Flood_Parcels, Flood_Values, Flood_Benefits, nrows = 
   layout(showlegend = FALSE,
          annotations = list(
            list(x = 0.04, y = 1.09, text = "Protected Properties", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
-           list(x = 0.5, y = 1.09, text = "Property Values in Adjacent Flood Zone", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
+           list(x = 0.5, y = 1.09, text = "Total Value of Protected Properties", showarrow = F, xref='paper', yref='paper', font = list(size = 16)),
            list(x = 0.99, y = 1.09, text = "Flood Protection Benefit", showarrow = F, xref='paper', yref='paper', font = list(size = 16))))
 FloodProtection
 ```
@@ -821,19 +832,29 @@ Column {data-width=700}
 
 #### Economic Impacts of Industry Sectors
 
-Proximity to valued resources— to amenities, such as parks and waterfront views— generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. Unlike commercial applications of natural resources, however, the premium of proximity to amenities can only change hands, its value is inherent in its location. Unbundling the amenity value added to a property from its physical characteristics is generally accomplished through two kinds of valuation methods: stated preference (surveys) and revealed preference methods.25 Since survey research was outside of the scope of this analysis, the revealed preference method of hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. Hedonic pricing approaches use statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value. 
+This study used an IMPLAN model of Florida, broken into county, ZIP code, and census tract resolution to explore the economic impacts of bay-dependent industry sectors. The output, employment, and wages for industries directly and indirectly dependent on resources and services afforded by Tampa Bay and its watershed was estimated based on the most current available 2019 data. All dollar figures are 2019 figures adjusted for 17.8 percent cumulative inflation from 2019 to 2022. Direct employment refers to eight bay-dependent sectors of the regional economy, which are: 
 
-This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries, of which 10,484 had been sold within the last two years. Through an iterative process, the project team determined which of more than one hundred different elements of a property had a statistically significant effect on its value. These include obvious attributes that add value, such as land, square footage, the presence of special features, and the age of the structure, all of which were included and thus ‘controlled for’ in the analysis. 
+1) Defense
+1) Living resources
+1) Marine construction
+1) Marine transportation
+1) Mineral extraction
+1) Research
+1) Ship and boat building
+1) Tourism and recreation
 
-Ultimately, four regression models were created using two different regression methods to explore the added amenity value afforded by Tampa Bay to nearby properties. The analysis employed a quarter-mile buffer around the bay and its four major tributaries— Hillsborough River, Alafia River, Little Manatee River, and Manatee River— as a dividing line between property groups. All properties were either ‘close to the coast’ (within a quarter-mile) or ‘far from the coast’ (beyond a quarter-mile), and this element was added as a variable to each property. A more detailed accounting of these methods, and all four of these models, can be found in the report’s appendix (see Hedonic Analysis of Property Values). 
+Moreover, economic activity in each region is an interconnected web of interacting industries. Any direct shock to one industry will have impacts on many others, far exceeding the initial magnitude of a change in sales or employment. To capture the full impact of a region’s economy, this study includes indirect (supply-chain related spending) and induced (household spending) effects. 
 
-<br>
+To measure direct, indirect, and induced economic impacts, the TBRPC used IMPLAN, an econometric modeling software which provides baseline economic indicators, and can produce economic impacts. IMPLAN is an input-output model which estimates flows of spending and purchases to track spending and purchases flows by industry sector and geography. These cash flows translate to economic impacts in the form of income, output, and employment. The TBRPC has access to models of the entire state of Florida, with resolution of data down to the ZIP code level. The IMPLAN software calculates the specific geographic/industry multipliers based on data from the Bureau of Economic Analysis.  
 
-##### Table 22. Summary of property value regression models.
+The IMPLAN model has 545 different industry sectors on which the model can report. Reporting all would be unwieldy, and many of which are not present at all geographies. To make the impacts usable, this study considers the impacts of grouped, watershed-enclosed industries. Staff imported a geographic information system (GIS) shapefile of the Tampa Bay watershed from the Tampa Bay Estuary Program’s website into ArcGIS’s ESRI software. Using the watershed as an overlay, staff selected the ZIP codes which comprised the watershed, erring on the side of exclusion if there was only a small part of the ZIP code being overlapped. 
 
-```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/regressions.PNG')
-```
+Optimally, this study would employ data from a survey of actual spending behavior by locals and tourists in the Tampa Bay area, however this was not feasible given the scope of this project and replicability limitations. In lieu of this, the TBRPC utilized a simplified, yet still useful, approach to measure impacts. IMPLAN offers an input method called Industry Contribution Analysis, which isolates a specific industry, or group of industries, in a defined geographic area. This ‘footprint’ methodology is a common practice for impact analyses when more granular industry data are unavailable. The results report the current level of employment, output, supply chain purchases, and personal income which industries in the Tampa Bay watershed support (as described above). In summation this represents the total contribution of that industry to the regional economy. Output represents the total annual production value and captures all components of production value or output for a given industry, including intermediate inputs and value added. These are annual production estimates for the year of the data set, 2019, and are in producer prices. 
+
+This study handles the Tourism and Recreation sector slightly differently than the others. Given the massive importance of tourism to the Florida economy generally, and the Tampa Bay watershed’s economy specifically, this study seeks to neither exclude nor overcount this sector’s contribution. Museums, amusement parks, and other pure recreation or tourism facilities are included in the Industry Contribution Analysis as described above. Hotels, motels, and restaurants cannot reliably be considered dependent upon watershed tourism, however, because many of them are far from the bay and its tributaries. Additionally, they are often used by locals and/or for non-recreational reasons, for example, professional trips or short-term housing for hotels/motels, and local consumption for restaurants. To address this potential weakness, the study uses ESRI data for direct output (dollars per year) by hotels and motels, including casino hotels, and full-service restaurants as an input to the Industry Contribution Analysis. Only the reported output which took place in a census block group adjacent to the bay or its major tributaries is included in this study. 
+
+Also, note that the defense sector is based solely on reported federal military payroll and does not have multiple industries that comprise it like the other sectors. The Defense sector is IMPLAN industry 545 “Employment and payroll of federal govt., military” and its impact is identical to Defense Direct impact in above sections. The Research sector is IMPLAN industry 463, “Environmental and other technical consulting services” and its impact is identical to Research Direct impact in the above sections.
+
 
 <br>
 
@@ -874,17 +895,17 @@ Column {data-width=700}
 
 #### Property Value Amenity Impacts
 
-Proximity to valued resources— to amenities, such as parks and waterfront views— generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. Unlike commercial applications of natural resources, however, the premium of proximity to amenities can only change hands, its value is inherent in its location. Unbundling the amenity value added to a property from its physical characteristics is generally accomplished through two kinds of valuation methods: stated preference (surveys) and revealed preference methods.25 Since survey research was outside of the scope of this analysis, the revealed preference method of hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. Hedonic pricing approaches use statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value. 
+Proximity to valued resources—to amenities, such as parks and waterfront views—generates price premiums for adjacent properties, just as the value of a home rises with the number of bedrooms or total floor space. Unlike commercial applications of natural resources, however, the premium of proximity to amenities can only change hands, its value is inherent in its location. Unbundling the amenity value added to a property from its physical characteristics is generally accomplished through two kinds of valuation methods: stated preference (surveys) and revealed preference methods. Since survey research was outside of the scope of this analysis, the revealed preference method of hedonic pricing was used to value amenities provided by Tampa Bay to nearby properties. Hedonic pricing approaches use statistical methods to parse the relative contribution of an amenity to the total value of an asset by isolating the effect of different elements of a property’s market value. 
 
 This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries, of which 10,484 had been sold within the last two years. Through an iterative process, the project team determined which of more than one hundred different elements of a property had a statistically significant effect on its value. These include obvious attributes that add value, such as land, square footage, the presence of special features, and the age of the structure, all of which were included and thus ‘controlled for’ in the analysis. 
 
-Ultimately, four regression models were created using two different regression methods to explore the added amenity value afforded by Tampa Bay to nearby properties. The analysis employed a quarter-mile buffer around the bay and its four major tributaries— Hillsborough River, Alafia River, Little Manatee River, and Manatee River— as a dividing line between property groups. All properties were either ‘close to the coast’ (within a quarter-mile) or ‘far from the coast’ (beyond a quarter-mile), and this element was added as a variable to each property. A more detailed accounting of these methods, and all four of these models, can be found in the report’s appendix (see Hedonic Analysis of Property Values). 
+Ultimately, four regression models were created using two different regression methods to explore the added amenity value afforded by Tampa Bay to nearby properties. The analysis employed a quarter-mile buffer around the bay and its four major tributaries— Hillsborough River, Alafia River, Little Manatee River, and Manatee River— as a dividing line between property groups. All properties were either ‘close to the coast’ (within a quarter-mile) or ‘far from the coast’ (beyond a quarter-mile), and this element was added as a variable to each property. A more detailed accounting of these methods, and all four of these models, can be found in the report’s appendix (see Hedonic Analysis of Property Values).
 
 <br>
 
 <b>Table 22. Summary of property value regression models.</b>
 
-```{r, fig.align='left', out.width='80%'}
+```{r, fig.align='left', out.width='70%'}
 knitr::include_graphics('img/regressions.PNG')
 ```
 
@@ -973,19 +994,20 @@ knitr::include_graphics('img/nrates.PNG')
 To value the flood protection services of wetland habitats in the Tampa Bay estuary, this study used an avoided damage method that estimates the predicted damages to real property from surge flooding that might be reduced by the presence of adjacent estuarine wetlands. More specifically, the protection services were determined by estimating the reduction in likely flood damages to coastal properties from a 100-year flood attributable to neighboring wetlands, including salt marshes, oyster bars, and seagrasses, as well as mangrove forests. These avoided costs were calculated over a 30-year period, matching the average length of a residential mortgage, using a damage function formula derived from Restore America’s Estuaries’ 2021 Economic Value of America’s Estuaries report. The net present value was approximated using publicly available data for the flood extent and severity, wetland locations, economic values at risk, flood damages, and wetland effects on damages. A more detailed accounting of the methods can be found in the appendix (see Flood Protection). The resulting values are for damages to properties exposed to flooding and do not include impacts to business sales, employment, or public health, thus the estimated damages are likely lower than what can be expected.
 
 <br>
-<b>Map of habitats and protected properties in the watershed.</b>
+
+#<b>Map of habitats and protected properties in the watershed.</b>
 ```{r}
 
-parcelmap <- parcels %>%
-  filter(FloodZone != "No intersect project Flood Zones") %>%
-  mapview(zcol = "FloodZone", col.regions = c("#D69C4E","#5C4A42"), alpha.regions = 1.0, layer.name = "Protected Parcels", lwd = 0,
-                     popup = popupTable(parcels,
-                                        zcol = "Habitat",
-                                        feature.id = FALSE,
-                                        row.numbers = FALSE))
+#parcelmap <- parcels %>%
+#  filter(FloodZone != "No intersect project Flood Zones") %>%
+#  mapview(zcol = "FloodZone", col.regions = c("#D69C4E","#5C4A42"), alpha.regions = 1.0, layer.name = "Protected Parcels", lwd = 0,
+#                     popup = popupTable(parcels,
+#                                        zcol = "Habitat",
+#                                        feature.id = FALSE,
+#                                        row.numbers = FALSE))
 
-habitatmaps <- mapview(wetlands, col.regions = "#004F7E", lwd = 0, alpha.regions = 1.0, layer.name = "Wetlands", label = "FLUCCSDESC", popup = FALSE) +
-  mapview(mangroves, col.regions = "#9C974A", lwd = 0, alpha.regions = 1.0, layer.name = "Mangroves", label = "FLUCCSDESC", popup = FALSE)
+#habitatmaps <- mapview(wetlands, col.regions = "#004F7E", lwd = 0, alpha.regions = 1.0, layer.name = "Wetlands", label = "FLUCCSDESC", popup = FALSE) +
+#  mapview(mangroves, col.regions = "#9C974A", lwd = 0, alpha.regions = 1.0, layer.name = "Mangroves", label = "FLUCCSDESC", popup = FALSE)
 
 #sync(habitatmaps, parcelmap)
 ```
