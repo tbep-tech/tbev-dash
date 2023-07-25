@@ -21,9 +21,6 @@ library(mapview)
 library(leaflet)
 library(RColorBrewer)
 library(plotly)
-library(leafpop)
-library(gridExtra)
-library(leafsync)
 
 load(file = "data/shoreline.RData")
 load(file = "data/watershed.RData")
@@ -983,7 +980,7 @@ To assess the value-added from denitrification services, this study used the mar
 
 <b>Table 32. Denitrification rates of select habitats in Tampa Bay.</b>
 
-```{r, fig.align='left', out.width='80%'}
+```{r, fig.align='left', out.width='70%'}
 knitr::include_graphics('img/nrates.PNG')
 ```
 
@@ -993,24 +990,6 @@ knitr::include_graphics('img/nrates.PNG')
 
 To value the flood protection services of wetland habitats in the Tampa Bay estuary, this study used an avoided damage method that estimates the predicted damages to real property from surge flooding that might be reduced by the presence of adjacent estuarine wetlands. More specifically, the protection services were determined by estimating the reduction in likely flood damages to coastal properties from a 100-year flood attributable to neighboring wetlands, including salt marshes, oyster bars, and seagrasses, as well as mangrove forests. These avoided costs were calculated over a 30-year period, matching the average length of a residential mortgage, using a damage function formula derived from Restore America’s Estuaries’ 2021 Economic Value of America’s Estuaries report. The net present value was approximated using publicly available data for the flood extent and severity, wetland locations, economic values at risk, flood damages, and wetland effects on damages. A more detailed accounting of the methods can be found in the appendix (see Flood Protection). The resulting values are for damages to properties exposed to flooding and do not include impacts to business sales, employment, or public health, thus the estimated damages are likely lower than what can be expected.
 
-<br>
-
-#<b>Map of habitats and protected properties in the watershed.</b>
-```{r}
-
-#parcelmap <- parcels %>%
-#  filter(FloodZone != "No intersect project Flood Zones") %>%
-#  mapview(zcol = "FloodZone", col.regions = c("#D69C4E","#5C4A42"), alpha.regions = 1.0, layer.name = "Protected Parcels", lwd = 0,
-#                     popup = popupTable(parcels,
-#                                        zcol = "Habitat",
-#                                        feature.id = FALSE,
-#                                        row.numbers = FALSE))
-
-#habitatmaps <- mapview(wetlands, col.regions = "#004F7E", lwd = 0, alpha.regions = 1.0, layer.name = "Wetlands", label = "FLUCCSDESC", popup = FALSE) +
-#  mapview(mangroves, col.regions = "#9C974A", lwd = 0, alpha.regions = 1.0, layer.name = "Mangroves", label = "FLUCCSDESC", popup = FALSE)
-
-#sync(habitatmaps, parcelmap)
-```
 
 <br>
 <br>
