@@ -330,7 +330,7 @@ The purpose of the Economic Valuation of Tampa Bay is to provide an economic val
 <br>
  
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 #### Using the dashboard
@@ -345,16 +345,16 @@ Methodological summaries for each of these three analyses can be found in the Me
 <br>
  
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 ```{r, fig.align='left', out.width='100%'}
-knitr::include_graphics('img/infographic.PNG')
+knitr::include_graphics('img/infographic.png')
 ```
 
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/88x31.png' /></a>&nbsp;&nbsp;This website is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International License</a>.
@@ -373,13 +373,13 @@ Column {data-width=325}
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/report.PNG')
+knitr::include_graphics('img/report.png')
 ```
 
 <b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 
@@ -392,11 +392,11 @@ Questions and comments about the study can be sent to the lead author of the rep
 <i>This study was funded in part by the Tampa Bay Estuary Program's Environmental Restoration Fund.</i></font> 
 
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/tbrpclogo.PNG')
+knitr::include_graphics('img/tbrpclogo.png')
 ```
 
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/tbeptberflogo.PNG')
+knitr::include_graphics('img/tbeptberflogo.png')
 ```
 
 </div>
@@ -870,7 +870,7 @@ Column {data-width=325}
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/report.PNG')
+knitr::include_graphics('img/report.png')
 ```
 
 <b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
@@ -904,7 +904,7 @@ Ultimately, four regression models were created using two different regression m
 <b>Table 22. Summary of property value regression models.</b>
 
 ```{r, fig.align='left', out.width='70%'}
-knitr::include_graphics('img/regressions.PNG')
+knitr::include_graphics('img/regressions.png')
 ```
 
 <br>
@@ -923,7 +923,7 @@ Column {data-width=325}
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/report.PNG')
+knitr::include_graphics('img/report.png')
 ```
 
 <b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
@@ -965,7 +965,7 @@ This study estimated the current amount and economic value of carbon sequestrati
 <b>Table 26. Conversions of carbon sequestration and stock rates.</b>
 
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/cconversions.PNG')
+knitr::include_graphics('img/cconversions.png')
 ```
 
 <br>
@@ -982,7 +982,7 @@ To assess the value-added from denitrification services, this study used the mar
 <b>Table 32. Denitrification rates of select habitats in Tampa Bay.</b>
 
 ```{r, fig.align='left', out.width='70%'}
-knitr::include_graphics('img/nrates.PNG')
+knitr::include_graphics('img/nrates.png')
 ```
 
 <br>
@@ -1009,7 +1009,7 @@ Column {data-width=325}
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/report.PNG')
+knitr::include_graphics('img/report.png')
 ```
 
 <b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
@@ -1044,7 +1044,7 @@ column(12,
 ```
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 ```{r}
@@ -1063,13 +1063,13 @@ column(12,
 <br>
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 
 The original data has been restructured into high-level summaries for display in this dashboard. To access the summarized datasets underlying the different the pages of this dashboard, visit the Tampa Bay Economic Valuation Dashboard Github repository [here](https://github.com/tbep-tech/tbev-dash). You can download the R source code for the dashboard, including the datasets used to display the results. Any questions related to the R code or datasets in the repository should be directed to [Dr. Blake Simmons](mailto:bsimmons@tbep.org). 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 #### Citation
@@ -1096,25 +1096,25 @@ Column {data-width=325}
 
 <br>
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/report.PNG')
+knitr::include_graphics('img/report.png')
 ```
 
 <b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 ```{r, fig.align='center', out.width='5%'}
-knitr::include_graphics('img/spacer.PNG')
+knitr::include_graphics('img/spacer.png')
 ```
 
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/tbrpclogo.PNG')
+knitr::include_graphics('img/tbrpclogo.png')
 ```
 
 ```{r, fig.align='left', out.width='80%'}
-knitr::include_graphics('img/tbeptberflogo.PNG')
+knitr::include_graphics('img/tbeptberflogo.png')
 ```
 
 </div>
