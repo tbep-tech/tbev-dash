@@ -679,7 +679,7 @@ output$habitat_map <- renderLeaflet(habitat_map())
 
 fillCol(flex = c(NA, 1),
         column(6,
-               selectInput('habitat_selection', 'Select habitat:', selected = "Seagrasses", choices = unique(habitats$Habitat))),
+               selectInput('habitat_selection', 'Select habitat:', selected = "Salt Marshes", choices = unique(habitats$Habitat))),
         leafletOutput('habitat_map')
 )
 
