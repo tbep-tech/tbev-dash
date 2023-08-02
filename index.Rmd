@@ -739,9 +739,12 @@ plotlyOutput("nitrogen_bar")
 
 ### Flood Protection 
 
+```{r, fig.align='center', out.width='40%'}
+knitr::include_graphics('img/legend.png')
+```
 <br>
-```{r}
 
+```{r}
 Flood_Parcels <- ES_flood %>%
   plot_ly(
     width = 900,
