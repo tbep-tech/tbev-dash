@@ -2,9 +2,11 @@
 title: "TAMPA BAY ECONOMIC VALUATION DASHBOARD"
 output: 
   flexdashboard::flex_dashboard:
-     logo: img/tarponlogo.png
-     social: menu
-     source_code: "https://github.com/tbep-tech/tbev-dash"
+    logo: img/tarponlogo.png
+    social: menu
+    source_code: "https://github.com/tbep-tech/tbev-dash"
+    includes:
+      in_header: google-analytics.html
 runtime: shiny
 css: styles.css
 ---
