@@ -324,6 +324,13 @@ Column {data-width=700}
 <div class = "col-md-2"></div>
 <div class = "col-md-10">
 
+<br>
+```{r, fig.align='center', out.width='100%'}
+knitr::include_graphics('img/header.png')
+```
+
+<br>
+
 #### The Economic Valuation of Tampa Bay
 
 Tampa Bay is a 400-square-mile estuary situated along the west coast of Florida in the second-most populous region in the state. Tampa Bay is an estuary of national significance and is of vital importance to the surrounding region's economy. The natural resources of Tampa Bay support essential industries such as tourism, mineral extraction, marine transportation, and other commercial and recreational activities. Additionally, the Tampa Bay watershed is comprised of rich and diverse habitats that provide ecosystem services and community benefits that enhance the quality of life.
@@ -562,7 +569,7 @@ PropertyValues1 <- PV_values %>%
   plot_ly(
     width = 900,
     height = 410,
-    x = ~Indicator,
+    x = ~IndicatorLabel,
     y = ~Number.of.properties,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
@@ -580,7 +587,7 @@ PropertyValues2 <- PV_values %>%
   plot_ly(
     width = 900,
     height = 410,
-    x = ~Indicator,
+    x = ~IndicatorLabel,
     y = ~Value.added.to.each.nearby.home,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
@@ -598,7 +605,7 @@ PropertyValues3 <- PV_values %>%
   plot_ly(
     width = 900,
     height = 410,
-    x = ~Indicator,
+    x = ~IndicatorLabel,
     y = ~Added.regional.value..billion.,
     type = "bar",
     marker = list(color = c("#00806E","#004F7E")),
@@ -759,8 +766,7 @@ Flood_Parcels <- ES_flood %>%
     ))),
     textposition = "none",
     hoverinfo = "text",
-    text = paste(ES_flood$Habitat, ":<br>",
-                 prettyNum(round(ES_flood$Number.of.Protected.Parcels, digits = 0), big.mark = ","), 
+    text = paste(prettyNum(round(ES_flood$Number.of.Protected.Parcels, digits = 0), big.mark = ","), 
                  "parcels protected")) %>%
   layout(
     yaxis = list(title = "Number of parcels"),
@@ -782,8 +788,7 @@ Flood_Values <- ES_flood %>%
     ))),
     textposition = "none",
     hoverinfo = "text",
-    text = paste(ES_flood$Habitat, ":<br>",
-                 ES_flood$Values, "total property value")) %>%
+    text = paste(ES_flood$Values, "total property value")) %>%
   layout(
     #title = "Properties Included in Model",
     yaxis = list(title = "Property values ($)"),
@@ -805,8 +810,7 @@ Flood_Benefits <- ES_flood %>%
     ))),
     textposition = "none",
     hoverinfo = "text",
-    text = paste(ES_flood$Habitat, ":<br>",
-                 ES_flood$Benefits, "in benefits")) %>%
+    text = paste(ES_flood$Benefits, "in benefits")) %>%
   layout(
     #title = "Properties Included in Model",
     yaxis = list(title = "Total benefits ($)"),
