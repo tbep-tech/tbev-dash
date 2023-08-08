@@ -568,7 +568,7 @@ mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", pop
 PropertyValues1 <- PV_values %>%
   plot_ly(
     width = 900,
-    height = 410,
+    height = 395,
     x = ~IndicatorLabel,
     y = ~Number.of.properties,
     type = "bar",
@@ -586,7 +586,7 @@ PropertyValues1 <- PV_values %>%
 PropertyValues2 <- PV_values %>%
   plot_ly(
     width = 900,
-    height = 410,
+    height = 395,
     x = ~IndicatorLabel,
     y = ~Value.added.to.each.nearby.home,
     type = "bar",
@@ -604,7 +604,7 @@ PropertyValues2 <- PV_values %>%
 PropertyValues3 <- PV_values %>%
   plot_ly(
     width = 900,
-    height = 410,
+    height = 395,
     x = ~IndicatorLabel,
     y = ~Added.regional.value..billion.,
     type = "bar",
@@ -746,7 +746,7 @@ plotlyOutput("nitrogen_bar")
 
 ### Flood Protection 
 
-```{r, fig.align='center', out.width='40%'}
+```{r, fig.align='center', out.width='35%'}
 knitr::include_graphics('img/legend.png')
 ```
 <br>
@@ -755,7 +755,7 @@ knitr::include_graphics('img/legend.png')
 Flood_Parcels <- ES_flood %>%
   plot_ly(
     width = 900,
-    height = 400,
+    height = 360,
     x = ~County,
     y = ~Number.of.Protected.Parcels,
     type = "bar",
@@ -777,7 +777,7 @@ Flood_Parcels <- ES_flood %>%
 Flood_Values <- ES_flood %>%
   plot_ly(
     width = 900,
-    height = 400,
+    height = 360,
     x = ~County,
     y = ~Property.Values.in.Flood.Zone,
     type = "bar",
@@ -799,7 +799,7 @@ Flood_Values <- ES_flood %>%
 Flood_Benefits <- ES_flood %>%
   plot_ly(
     width = 900,
-    height = 400,
+    height = 360,
     x = ~County,
     y = ~Total.Flood.Protection.Benefits,
     type = "bar",
