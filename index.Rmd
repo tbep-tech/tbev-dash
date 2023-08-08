@@ -387,7 +387,7 @@ Column {data-width=325}
 knitr::include_graphics('img/report.png')
 ```
 
-<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
+<b>[Download the full report](https://indd.adobe.com/view/ee1d5fec-c66d-49ed-882f-2cf74fc7fd01){target="_blank"}</b>
 
 ```{r, fig.align='center', out.width='5%'}
 knitr::include_graphics('img/spacer.png')
@@ -523,13 +523,13 @@ Proximity to valued amenities, such as waterfront views, generates price premium
 
 This report examined property appraiser data for 61,287 single-family homes within the watershed boundaries (10,484 of which had been sold within the last two years) to estimate the added amenity value afforded by the bay to nearby properties (those within a quarter-mile of the shoreline).
 
-Two measures of property values were considered: <span style="color:#00806E">sale price</span> and <span style="color:#00806E">justified value</span>. In contrast to the sale price, the justified value is the value a property appraiser assigns to a parcel, which offers a more conservative lower bound for impacts on property values given its robustness to changing market conditions. Every parcel has a justified value, however only parcels sold within the last two years of data have an included sale price, meaning that the justified value regression includes the entire universe of data while the sale price regressions include only a subset. Additionally, sale prices are not purely reflective of the underlying characteristics of a parcel and its amenities, because they are sensitive to short-term market trends and asset speculation by buyers.
+Two measures of property values were considered: <span style="color:#00806E">sale price</span> and <span style="color:#00806E">justified value (appraiser estimate)</span>. In contrast to the sale price, the justified value is the value a property appraiser assigns to a parcel, which offers a more conservative lower bound for impacts on property values given its robustness to changing market conditions. Every parcel has a justified value, however only parcels sold within the last two years of data have an included sale price, meaning that the justified value regression model includes the entire universe of data while the sale price models include only a subset. Additionally, sale prices are not purely reflective of the underlying characteristics of a parcel and its amenities, because they are sensitive to short-term market trends and asset speculation by buyers.
 </font>
 
 <font size="4"><b>Results Summary</b></font>
 
 <font size="3">
-The model with the strongest explanatory power was a regression on the justified value. This model found that for a comparable parcel, being within a quarter-mile of the water added about <span style="color:#00806E">\$52,769</span> to its justified value. Multiplying this added value by the number of single-family parcels within a quarter mile gives a total added value of <span style="color:#00806E">\$3.23 billion</span> to the regional economy.
+The model with the strongest explanatory power was a regression on the justified/appraiser value. This model found that for a comparable parcel, being within a quarter-mile of the water added about <span style="color:#00806E">\$52,769</span> to its justified value. Multiplying this added value by the number of single-family parcels within a quarter mile gives a total added value of <span style="color:#00806E">\$3.23 billion</span> to the regional economy.
 </font>
 
 
@@ -537,11 +537,11 @@ The model with the strongest explanatory power was a regression on the justified
 
 <font size="3">
 
-This page summarizes the results of the two best models quantifying the added benefit of bay-proximity to the sale price and justified value of homes in Tampa Bay.
+This page summarizes the results of the two best models quantifying the added benefit of bay-proximity to the sale price and justified (appraised) value of homes in Tampa Bay.
 
 The <span style="color:#00806E">Area of Benefit</span> tab provides a map showing the quarter-mile shoreline buffer used to distinguish properties close to the coast from those far from the coast. The total estimated value added by bay-proximity is representative of all homes within this shoreline boundary, relative to all homes outside of that boundary.
 
-The <span style="color:#00806E">Property Benefits</span> tab provides a comparison of the results for properties' sale price and justified value. It highlights differences in (1) the number of properties near the coast that are included in the model, (2) the added amenity value per property, and (3) the total value added to all single-family properties near the coast.
+The <span style="color:#00806E">Property Benefits</span> tab provides a comparison of the results for properties' sale price and justified (appraised) value. It highlights differences in (1) the number of properties near the coast that are included in the model, (2) the added amenity value per property, and (3) the total value added to all single-family properties near the coast.
 
 <i>NOTE: Although impacts to both sale price and justified value are featured in this dashboard, the authors recommend placing greater emphasis on the justified value results given the limitations inherent in the sale price model. See the full report for more detail. </i>
 
@@ -884,7 +884,7 @@ Column {data-width=325}
 knitr::include_graphics('img/report.png')
 ```
 
-<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
+<b>[Download the full report](https://indd.adobe.com/view/ee1d5fec-c66d-49ed-882f-2cf74fc7fd01){target="_blank"}</b>
 
 </div>
 <div class = "col-md-2"></div>
@@ -937,7 +937,7 @@ Column {data-width=325}
 knitr::include_graphics('img/report.png')
 ```
 
-<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
+<b>[Download the full report](https://indd.adobe.com/view/ee1d5fec-c66d-49ed-882f-2cf74fc7fd01){target="_blank"}</b>
 
 </div>
 <div class = "col-md-2"></div>
@@ -1023,7 +1023,7 @@ Column {data-width=325}
 knitr::include_graphics('img/report.png')
 ```
 
-<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
+<b>[Download the full report](https://indd.adobe.com/view/ee1d5fec-c66d-49ed-882f-2cf74fc7fd01){target="_blank"}</b>
 
 </div>
 <div class = "col-md-2"></div>
@@ -1110,7 +1110,7 @@ Column {data-width=325}
 knitr::include_graphics('img/report.png')
 ```
 
-<b>[Download the full report](https://github.com/tbep-tech/tbev-dash)</b>
+<b>[Download the full report](https://indd.adobe.com/view/ee1d5fec-c66d-49ed-882f-2cf74fc7fd01){target="_blank"}</b>
 
 ```{r, fig.align='center', out.width='5%'}
 knitr::include_graphics('img/spacer.png')
