@@ -159,7 +159,7 @@ carbon_bar <- reactive({
   CarbonQuantity <- mydata %>%
     plot_ly(
     width = 900,
-    height = 325,
+    height = 320,
     y = ~Habitat,
     x = ~Quantity,
     type = "bar",
@@ -176,7 +176,7 @@ carbon_bar <- reactive({
   CarbonValue <- mydata %>%
     plot_ly(
     width = 900,
-    height = 325,
+    height = 320,
     y = ~Habitat,
     x = ~Value,
     type = "bar",
@@ -207,7 +207,7 @@ nitrogen_bar <- reactive({
   NitrogenQuantity <- mydata %>%
     plot_ly(
     width = 900,
-    height = 325,
+    height = 320,
     y = ~Habitat,
     x = ~Quantity,
     type = "bar",
@@ -224,7 +224,7 @@ nitrogen_bar <- reactive({
   NitrogenValue <- mydata %>%
     plot_ly(
     width = 900,
-    height = 325,
+    height = 320,
     y = ~Habitat,
     x = ~Value,
     type = "bar",
