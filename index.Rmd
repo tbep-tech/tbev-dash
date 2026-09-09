@@ -49,6 +49,7 @@ downloadButtonRmd <- function (outputId, label = "Download", class = NULL, ...) 
 
 tbepcols10 <- c("#00806E","#004F7E","#5C4A42","#958984","#D69C4E","#962D14","#352849","#9C974A","#78B7C5","#D8A499","#427355","#D67336","#7394D4","#F2AD00","#C93211","#E6A0C4","#090909")
 
+maptyps <- c("Esri.WorldTopoMap", "Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap")
 ```
 
 
@@ -270,6 +271,7 @@ habitat_map <- reactive({
             col.regions = color_selection, 
             alpha.regions = 1.0,
             lwd = 0, 
+            map.types = maptyps,
             layer.name = "Habitat", 
             popup = popupTable(mydata, zcol = c("Habitat","Area","Sequestration","Denitrification"), 
                                feature.id = FALSE, row.numbers = FALSE)) %>% 
@@ -556,8 +558,9 @@ Column {.tabset .tabset-fade data-width=650}
 ### Area of Benefit 
 
 ```{r}
-mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE) +
-  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE)
+mapview(watershed, color = "black", lwd = 2, legend = FALSE, label = "Name", popup = FALSE, 
+  map.types = maptyps) +
+  mapview(shoreline, col.regions = "#00806E", layer.name = "Shoreline (0.25 mile buffer)", label = FALSE, popup = FALSE, map.types = maptyps)
 ```
 
 ### Property Benefits 
